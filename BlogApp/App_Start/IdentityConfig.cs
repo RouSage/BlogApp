@@ -11,15 +11,43 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using BlogApp.Models;
+using SendGrid.Helpers.Mail;
+using System.Net.Mail;
+using System.Net;
+using System.Text;
+using System.Configuration;
 
 namespace BlogApp
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            //return Task.FromResult(0);
+            await ConfigSendSmtpAsync(message);
+        }
+
+        private async Task ConfigSendSmtpAsync(IdentityMessage message)
+        {
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.Credentials = new NetworkCredential(
+                ConfigurationManager.AppSettings["mailAccount"],
+                ConfigurationManager.AppSettings["mailPassword"]);
+            client.EnableSsl = true;
+
+            MailAddress from = new MailAddress("kolbasov77@gmail.com", "RouSage", Encoding.UTF8);
+            MailAddress to = new MailAddress(message.Destination);
+
+            using (var mailMessage = new MailMessage(from, to)
+            {
+                IsBodyHtml = true,
+                Body = message.Body,
+                Subject = message.Subject,
+                BodyEncoding = Encoding.UTF8
+            })
+
+            await client.SendMailAsync(mailMessage);
         }
     }
 
@@ -54,10 +82,10 @@ namespace BlogApp
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+                RequireNonLetterOrDigit = false,
                 RequireDigit = true,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = false
             };
 
             // Configure user lockout defaults

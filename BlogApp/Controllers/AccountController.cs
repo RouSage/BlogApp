@@ -73,13 +73,20 @@ namespace BlogApp.Controllers
                 return View(model);
             }
 
-            // Require the user to have a confirmed email before the can log on
-            var user = await UserManager.FindByNameAsync(model.Email);
+            // Require the user to have a confirmed email before they can log on
+            //var user = await UserManager.FindByNameAsync(model.Email);
+            var user = UserManager.Find(model.Email, model.Password);
             if(user != null)
             {
                 if(!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {
-                    ViewBag.ErrorMessage = "You must have a confirmed email to log on.";
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account-Resend");
+
+                    // Uncomment to debug locally
+                    // VieBag.Link = callbarUrl;
+
+                    ViewBag.ErrorMessage = "You must have a confirmed email to log on. "
+                        + "The confirmation token has been resent to your email account.";
                     return View("Error");
                 }
             }
@@ -168,12 +175,8 @@ namespace BlogApp.Controllers
                 {
                     // Prevent log in until the user is confirmed
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account",
-                        new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account",
-                        "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here.</a>");
+
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");                    
 
                     // Uncomment to debug locally
                     // TempData["ViewBagLink"] = callbackUrl;
@@ -227,12 +230,10 @@ namespace BlogApp.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -266,12 +267,14 @@ namespace BlogApp.Controllers
             {
                 return View(model);
             }
+
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
@@ -498,6 +501,18 @@ namespace BlogApp.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+
+        private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account",
+                new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject,
+                "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            return callbackUrl;
+        }
+
         #endregion
     }
 }

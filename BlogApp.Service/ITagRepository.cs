@@ -44,10 +44,5 @@ namespace BlogApp.Service
         /// </summary>
         /// <param name="tag"></param>
         void UpdateTag(Tag tag);
-
-        /// <summary>
-        /// Save all changes to the database
-        /// </summary>
-        void Save();
     }
 }

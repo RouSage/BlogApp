@@ -44,10 +44,5 @@ namespace BlogApp.Service
         /// </summary>
         /// <param name="category"></param>
         void UpdateCategory(Category category);
-
-        /// <summary>
-        /// Saves all changes to the database
-        /// </summary>
-        void Save();
     }
 }

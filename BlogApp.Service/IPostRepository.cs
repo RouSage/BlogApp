@@ -51,10 +51,5 @@ namespace BlogApp.Service
         /// </summary>
         /// <param name="post"></param>
         void UpdatePost(Post post);
-
-        /// <summary>
-        /// Saves all changes to the database
-        /// </summary>
-        void Save();
     }
 }

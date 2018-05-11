@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="ICategoryRepository.cs" />
     <Compile Include="IPostRepository.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="ITagRepository.cs" />
+    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,9 @@
 ﻿using BlogApp.Data;
-using System;
 using System.Collections.Generic;
 
 namespace BlogApp.Service
 {
-    public interface IPostRepository : IDisposable
+    public interface IPostRepository : IRepository<Post>
     {
         /// <summary>
         /// Returns all Post entities
@@ -32,24 +31,5 @@ namespace BlogApp.Service
         /// <param name="postID">Post's ID</param>
         /// <returns></returns>
         Post GetPostByID(int postID);
-
-        /// <summary>
-        /// Add a new Post and returns its ID
-        /// </summary>
-        /// <param name="post"></param>
-        /// <returns></returns>
-        int AddPost(Post post);
-
-        /// <summary>
-        /// Deletes the Post from database
-        /// </summary>
-        /// <param name="postID"></param>
-        void DeletePost(int postID);
-
-        /// <summary>
-        /// Updates the Post
-        /// </summary>
-        /// <param name="post"></param>
-        void UpdatePost(Post post);
     }
 }

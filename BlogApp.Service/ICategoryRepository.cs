@@ -1,10 +1,9 @@
 ﻿using BlogApp.Data;
-using System;
 using System.Collections.Generic;
 
 namespace BlogApp.Service
 {
-    public interface ICategoryRepository : IDisposable
+    public interface ICategoryRepository : IRepository<Category>
     {
         /// <summary>
         /// Returns all Category entities
@@ -25,24 +24,5 @@ namespace BlogApp.Service
         /// <param name="categoryID">Category's ID</param>
         /// <returns></returns>
         Category GetCategoryByID(int categoryID);
-
-        /// <summary>
-        /// Adds a new Category and returns its ID
-        /// </summary>
-        /// <param name="category"></param>
-        /// <returns></returns>
-        int AddCategory(Category category);
-
-        /// <summary>
-        /// Deletes the Category from database
-        /// </summary>
-        /// <param name="categoryID"></param>
-        void DeleteCategory(int categoryID);
-
-        /// <summary>
-        /// Updates the Category
-        /// </summary>
-        /// <param name="category"></param>
-        void UpdateCategory(Category category);
     }
 }

@@ -1,10 +1,9 @@
 ﻿using BlogApp.Data;
-using System;
 using System.Collections.Generic;
 
 namespace BlogApp.Service
 {
-    public interface ITagRepository : IDisposable
+    public interface ITagRepository : IRepository<Tag>
     {
         /// <summary>
         /// Returns all Tag entities
@@ -25,24 +24,5 @@ namespace BlogApp.Service
         /// <param name="tagID">Tag's ID</param>
         /// <returns></returns>
         Tag GetTagByID(int tagID);
-
-        /// <summary>
-        /// Adds a new Tag and returns its ID
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <returns></returns>
-        int AddTag(Tag tag);
-
-        /// <summary>
-        /// Deletes the Tag from database
-        /// </summary>
-        /// <param name="tagID">Tag's ID</param>
-        void DeleteTag(int tagID);
-
-        /// <summary>
-        /// Updates the Tag
-        /// </summary>
-        /// <param name="tag"></param>
-        void UpdateTag(Tag tag);
     }
 }

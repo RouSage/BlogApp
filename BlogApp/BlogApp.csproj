@@ -208,6 +208,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -324,7 +325,9 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Post\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
@@ -340,6 +343,14 @@
     <ProjectReference Include="..\BlogApp.Data\BlogApp.Data.csproj">
       <Project>{ea1cbc5d-9179-49b6-88df-487b40efe13d}</Project>
       <Name>BlogApp.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlogApp.Repo\BlogApp.Repo.csproj">
+      <Project>{6B562AC3-00A9-4716-82F7-B47523C205A4}</Project>
+      <Name>BlogApp.Repo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlogApp.Service\BlogApp.Service.csproj">
+      <Project>{9110CFD1-D8D4-47BE-AA0F-2A7D866ECBEB}</Project>
+      <Name>BlogApp.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

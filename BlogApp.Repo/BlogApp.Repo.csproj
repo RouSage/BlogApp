@@ -48,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EFBlogAppDbContext.cs" />
+    <Compile Include="EFCategoryRepository.cs" />
+    <Compile Include="EFPostRepository.cs" />
+    <Compile Include="EFTagRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +61,10 @@
     <ProjectReference Include="..\BlogApp.Data\BlogApp.Data.csproj">
       <Project>{EA1CBC5D-9179-49B6-88DF-487B40EFE13D}</Project>
       <Name>BlogApp.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlogApp.Service\BlogApp.Service.csproj">
+      <Project>{9110CFD1-D8D4-47BE-AA0F-2A7D866ECBEB}</Project>
+      <Name>BlogApp.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -58,6 +58,8 @@ namespace BlogApp.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.selectedItem = "login";
+
             return View();
         }
 
@@ -157,6 +159,8 @@ namespace BlogApp.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.selectedItem = "register";
+
             return View();
         }
 

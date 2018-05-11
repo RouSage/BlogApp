@@ -13,6 +13,7 @@ namespace BlogApp.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
+            ViewBag.selectedItem = "about";
 
             return View();
         }
@@ -21,6 +22,7 @@ namespace BlogApp.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+            ViewBag.selectedItem = "contact";
 
             return View();
         }

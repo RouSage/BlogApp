@@ -22,10 +22,15 @@ namespace BlogApp.Repo
         {
             context.Set<TEntity>().Add(entity);
         }
-
+        
         public void AddRange(IEnumerable<TEntity> entities)
         {
             context.Set<TEntity>().AddRange(entities);
+        }
+
+        public void Edit(TEntity entity)
+        {
+            context.Entry(entity).State = EntityState.Modified;
         }
 
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)

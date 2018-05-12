@@ -13,6 +13,8 @@ namespace BlogApp.Service
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);
 
+        void Edit(TEntity entity);
+
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);
     }

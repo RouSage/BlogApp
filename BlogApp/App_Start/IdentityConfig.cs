@@ -16,6 +16,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Text;
 using System.Configuration;
+using BlogApp.Repo;
 
 namespace BlogApp
 {
@@ -70,7 +71,7 @@ namespace BlogApp
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<EFBlogAppDbContext>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {

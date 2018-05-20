@@ -12,6 +12,14 @@ namespace BlogApp.Service
         IEnumerable<Post> GetPosts();
 
         /// <summary>
+        /// Returns all posts with pagination support
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        IEnumerable<Post> GetPosts(int page, int pageSize);
+
+        /// <summary>
         /// Return all Post entities based on category's slug
         /// </summary>
         /// <param name="categorySlug">Category's slug</param>
@@ -24,6 +32,12 @@ namespace BlogApp.Service
         /// <param name="tagSlug">Tag's slug</param>
         /// <returns></returns>
         IEnumerable<Post> GetPostsByTag(string tagSlug);
+
+        /// <summary>
+        /// Returns total number of published posts
+        /// </summary>
+        /// <returns></returns>
+        int TotalPosts();
 
         /// <summary>
         /// Returns a single Post entity based on ID

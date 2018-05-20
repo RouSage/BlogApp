@@ -1,13 +1,35 @@
-﻿using System.Web.Mvc;
+﻿using BlogApp.Models;
+using BlogApp.Service;
+using System.Web.Mvc;
 
 namespace BlogApp.Controllers
 {
     [RequireHttps]
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private readonly IPostRepository _postRepository;
+
+        public HomeController(IPostRepository postRepository)
         {
-            return View();
+            _postRepository = postRepository;
+        }
+
+        public ActionResult Index(int page = 1)
+        {
+            int pageSize = 5;
+
+            PostViewModel model = new PostViewModel
+            {
+                Posts = _postRepository.GetPosts(page, pageSize),
+                PageInfo = new PageInfo
+                {
+                    PageNumber = page,
+                    PageSize = pageSize,
+                    TotalItems = _postRepository.TotalPosts()
+                }
+            };
+
+            return View(model);
         }
 
         public ActionResult About()

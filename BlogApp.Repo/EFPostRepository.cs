@@ -37,9 +37,9 @@ namespace BlogApp.Repo
         {
             return DbContext.Posts
                 .Where(p => p.Published)
+                .OrderByDescending(p => p.PostedOn)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .OrderByDescending(p => p.PostedOn)
                 .Include(c => c.Category)
                 .Include(t => t.Tags)
                 .ToList();

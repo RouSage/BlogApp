@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,30 +9,40 @@
 
 </head>
 <body>
-    <header class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand ml-2" })
-            <div class="navbar-collapse collapse" id="navNav">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item @(ViewBag.selectedItem == "about" ? "active" : "")">@Html.ActionLink("About", "About",
-                        new { controller = "Home" }, new { @class = "nav-link" })</li>
-                    <li class="nav-item @(ViewBag.selectedItem == "contact" ? "active" : "")">@Html.ActionLink("Contact", "Contact",
-                        new { controller = "Home" }, new { @class = "nav-link" })</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+    <!-- Navigation/Site header -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        @Html.ActionLink("BlogApp", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button class="navbar-toggler" aria-expanded="false"
+                aria-controls="navbarCollapse" aria-label="Toggle navigation"
+                type="button" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation buttons -->
+        <div class="navbar-collapse collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item @(ViewBag.selectedItem == "about" ? "active" : "")">
+                    @Html.ActionLink("About", "About",
+                    new { controller = "Home" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item @(ViewBag.selectedItem == "contact" ? "active" : "")">
+                    @Html.ActionLink("Contact", "Contact",
+                    new { controller = "Home" }, new { @class = "nav-link" })
+                </li>
+            </ul>
+            @Html.Partial("_LoginPartial")
         </div>
-    </header>
-    <div class="container body-content mt-2">
+    </nav>
+
+    <!-- Main content-->
+    <main class="container body-content" role="main">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </main>
+
+    <footer class="container">
+        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

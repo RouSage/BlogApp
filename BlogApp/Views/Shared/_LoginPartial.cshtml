@@ -1,25 +1,37 @@
 ﻿@using Microsoft.AspNet.Identity
+
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form-inline" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id="logoutForm", @class="form-inline" }))
     {
     @Html.AntiForgeryToken()
 
     <ul class="navbar-nav">
-        <li class="nav-item active">
-            @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null,
-                htmlAttributes: new { @class = "nav-link", title = "Manage" })
+        <!-- Dropdown menu for the user's account interactions -->
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="accountDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                @User.Identity.GetUserName()
+            </a>
+            <!-- Dropdown menu items -->
+            <div class="dropdown-menu" aria-labelledby="accountDropdown">
+                @Html.ActionLink("Manage account", "Index", "Manage", routeValues: null,
+                    htmlAttributes: new { @class = "dropdown-item" })
+                <div class="dropdown-divider"></div>
+                <a href="javascript:document.getElementById('logoutForm').submit()" class="dropdown-item">Log off</a>
+            </div>
         </li>
-        <li class="nav-item active"><a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link">Log off</a></li>
     </ul>
     }
 }
 else
 {
     <ul class="navbar-nav">
-        <li class="nav-item @(ViewBag.selectedItem == "register" ? "active" : "")">@Html.ActionLink("Register", "Register", "Account",
-            routeValues: null, htmlAttributes: new { @class = "nav-link", id = "registerLink" })</li>
-        <li class="nav-item @(ViewBag.selectedItem == "login" ? "active" : "")">@Html.ActionLink("Log in", "Login", "Account",
-            routeValues: null, htmlAttributes: new { @class = "nav-link", id = "loginLink" })</li>
+        <li class="nav-item @(ViewBag.selectedItem == "register" ? "active" : "")">
+            @Html.ActionLink("Register", "Register", "Account", routeValues: null,
+                htmlAttributes: new { @class = "nav-link", id = "registerLink" })</li>
+        <li class="nav-item @(ViewBag.selectedItem == "login" ? "active" : "")">
+            @Html.ActionLink("Log in", "Login", "Account",routeValues: null,
+                htmlAttributes: new { @class = "nav-link", id = "loginLink" })</li>
     </ul>
 }

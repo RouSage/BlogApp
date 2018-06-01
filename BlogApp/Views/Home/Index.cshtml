@@ -8,31 +8,37 @@
 <div class="row">
     <!-- Left sidebar -->
     <div class="col col-md-4">
-        <div class="left-sidebar">
-            <!-- Category list -->
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    <a href="#" class="pr-2 pr-md-0">Web-development</a>
-                    <span class="badge badge-primary badge-pill">2</span>
-                </li>
-                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    <a href="#" class="pr-2 pr-md-0">C#-programming</a>
-                    <span class="badge badge-primary badge-pill">5</span>
-                </li>
-                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    <a href="#" class="pr-2 pr-md-0">ASP.NET Core</a>
-                    <span class="badge badge-primary badge-pill">1</span>
-                </li>
-                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    <a href="#" class="pr-2 pr-md-0">ASP.NET</a>
-                    <span class="badge badge-primary badge-pill">10</span>
-                </li>
-            </ul>
-            <!-- /.list-group -->
-        </div>
-        <!-- /.left-sidebar -->
+        <div class="card border-magenta">
+            <button class="btn btn-light text-left card-header d-block d-md-none" data-toggle="collapse" data-target="#collapseCategories"
+                 aria-expanded="true" aria-controls="collapseCategories">
+                Categories
+                </button>
+                <!-- Category list -->
+                <ul id="collapseCategories" class="list-group list-group-flush d-md-block collapse">
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="#" class="pr-2 pr-md-0">Web-development</a>
+                        <span class="badge badge-primary badge-pill">2</span>
+                    </li>
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="#" class="pr-2 pr-md-0">C#-programming</a>
+                        <span class="badge badge-primary badge-pill">5</span>
+                    </li>
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="#" class="pr-2 pr-md-0">ASP.NET Core</a>
+                        <span class="badge badge-primary badge-pill">1</span>
+                    </li>
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="#" class="pr-2 pr-md-0">ASP.NET</a>
+                        <span class="badge badge-primary badge-pill">10</span>
+                    </li>
+                </ul>
+                <!-- /.list-group -->
+            </div>
+            <!-- /.card -->
     </div>
     <!-- /.col-md-4 -->
+
+    <!-- Blog posts -->
     <div class="col-md-8">
         <h3 class="pb-3 mb-4 border-bottom">@ViewBag.Title</h3>
 

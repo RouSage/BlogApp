@@ -41,3 +41,10 @@ li.list-group-item > a {
 li.list-group-item span {
     background-color: darkmagenta;
 }
+
+.border-magenta {
+    border-color: darkmagenta;
+}
+.card-header:hover {
+    cursor: pointer;
+}

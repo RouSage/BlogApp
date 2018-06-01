@@ -14,6 +14,10 @@ namespace BlogApp.Data
         [StringLength(500, ErrorMessage = "Length should not exceed 500 characters")]
         public string Title { get; set; }
 
+        [Required(ErrorMessage = "Description is required")]
+        [StringLength(5000, ErrorMessage = "Length should not exceed 5000 characters")]
+        public string Description { get; set; }
+
         [Required(ErrorMessage = "Content is required")]
         public string Content { get; set; }
 

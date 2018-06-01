@@ -82,6 +82,14 @@
     <Compile Include="Migrations\201805121603450_InitialMigration.Designer.cs">
       <DependentUpon>201805121603450_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806011057319_AddPostDescription.cs" />
+    <Compile Include="Migrations\201806011057319_AddPostDescription.Designer.cs">
+      <DependentUpon>201806011057319_AddPostDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806011103391_PostDescriptionLength.cs" />
+    <Compile Include="Migrations\201806011103391_PostDescriptionLength.Designer.cs">
+      <DependentUpon>201806011103391_PostDescriptionLength.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
@@ -104,6 +112,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201805121603450_InitialMigration.resx">
       <DependentUpon>201805121603450_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806011057319_AddPostDescription.resx">
+      <DependentUpon>201806011057319_AddPostDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806011103391_PostDescriptionLength.resx">
+      <DependentUpon>201806011103391_PostDescriptionLength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

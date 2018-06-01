@@ -26,6 +26,7 @@
 }
 else
 {
+    <!-- Register and Login buttons -->
     <ul class="navbar-nav">
         <li class="nav-item @(ViewBag.selectedItem == "register" ? "active" : "")">
             @Html.ActionLink("Register", "Register", "Account", routeValues: null,

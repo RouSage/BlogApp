@@ -11,7 +11,6 @@ namespace BlogApp.Controllers
     public class PostController : Controller
     {
         private readonly IPostRepository _postRepository;
-        private readonly int _pageSize = 5;
 
         public PostController(IPostRepository postRepository)
         {

@@ -30,7 +30,7 @@ textarea {
 
 /* Disables the arrow in bootstrap's dropdown */
 .dropdown-toggle::after {
-    display: none !important
+    display: none;
 }
 
 li.list-group-item > a {
@@ -52,4 +52,13 @@ li.list-group-item span {
 .btn-primary {
     background-color: darkmagenta;
     border-color: darkmagenta;
+}
+
+.text-magenta {
+    color: darkmagenta;
+}
+
+.form-control:focus {
+    border-color: darkmagenta;
+    box-shadow: 0 0 0 0.2rem rgba(139, 0, 139, 0.30)
 }

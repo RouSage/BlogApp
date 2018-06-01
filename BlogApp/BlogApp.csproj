@@ -363,6 +363,7 @@
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Shared\_CategoriesMenu.cshtml" />
     <Content Include="Views\Shared\_Sidebars.cshtml" />
+    <Content Include="Views\Shared\_LayoutWithoutSidebar.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

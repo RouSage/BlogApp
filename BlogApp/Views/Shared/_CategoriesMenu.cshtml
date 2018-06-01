@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<BlogApp.Data.Category>
 @using BlogApp.HtmlHelpers
 
-<!-- Left sidebar -->
+
 @if (Model.Count() > 0)
 {
-    <div class="card border-magenta">
+    <!-- Categories' list card -->
+    <div class="card border-magenta mb-2 mb-md-0">
         <button class="btn btn-light text-left card-header d-block d-md-none" data-toggle="collapse" data-target="#collapseCategories"
                 aria-expanded="true" aria-controls="collapseCategories">
             Categories

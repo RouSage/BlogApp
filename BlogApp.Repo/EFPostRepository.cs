@@ -18,6 +18,15 @@ namespace BlogApp.Repo
             get { return context as EFBlogAppDbContext; }
         }
 
+        public Post GetPost(int year, int month, string titleSlug)
+        {
+            return DbContext.Posts
+                .Where(p => p.PostedOn.Year == year && p.PostedOn.Month == month && p.UrlSlug.Equals(titleSlug))
+                .Include(c => c.Category)
+                .Include(t => t.Tags)
+                .Single();
+        }
+
         public Post GetPostByID(int postID)
         {
             return DbContext.Posts.Find(postID);
@@ -45,10 +54,15 @@ namespace BlogApp.Repo
                 .ToList();
         }
 
-        public IEnumerable<Post> GetPostsByCategory(string categorySlug)
+        public IEnumerable<Post> GetPostsByCategory(string categorySlug, int page, int pageSize)
         {
             return DbContext.Posts
-                .Where(p => p.Published && p.Category.Equals(categorySlug))
+                .Where(p => p.Published && p.Category.UrlSlug.Equals(categorySlug))
+                .OrderByDescending(p=>p.PostedOn)
+                .Skip((page - 1) * ( pageSize))
+                .Take(pageSize)
+                .Include(c=>c.Category)
+                .Include(t=>t.Tags)
                 .ToList();
         }
 
@@ -63,6 +77,13 @@ namespace BlogApp.Repo
         {
             return DbContext.Posts
                 .Where(p => p.Published)
+                .Count();
+        }
+
+        public int TotalPostsForCategory(string categorySlug)
+        {
+            return DbContext.Posts
+                .Where(p => p.Published && p.Category.UrlSlug.Equals(categorySlug))
                 .Count();
         }
     }

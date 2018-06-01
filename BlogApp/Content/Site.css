@@ -48,3 +48,8 @@ li.list-group-item span {
 .card-header:hover {
     cursor: pointer;
 }
+
+.btn-primary {
+    background-color: darkmagenta;
+    border-color: darkmagenta;
+}

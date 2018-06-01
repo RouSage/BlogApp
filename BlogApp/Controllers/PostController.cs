@@ -3,6 +3,7 @@ using BlogApp.Service;
 using System.Web.Mvc;
 using BlogApp.Data;
 using System.Collections.Generic;
+using System.Web;
 
 namespace BlogApp.Controllers
 {
@@ -10,6 +11,7 @@ namespace BlogApp.Controllers
     public class PostController : Controller
     {
         private readonly IPostRepository _postRepository;
+        private readonly int _pageSize = 5;
 
         public PostController(IPostRepository postRepository)
         {
@@ -17,11 +19,18 @@ namespace BlogApp.Controllers
         }
 
         // GET: Post
-        public ActionResult Index()
+        [Route("Archive/{year}/{month}/{titleSlug}")]
+        public ActionResult Index(int year, int month, string titleSlug)
         {
-            ViewBag.Title = "Latest Posts";
+            var post = _postRepository.GetPost(year, month, titleSlug);
 
-            return View();
+            if (post == null)
+                throw new HttpException(404, "Post not found");
+
+            if (!post.Published)
+                throw new HttpException(401, "THe post is not published");
+
+            return View(post);
         }
     }
 }

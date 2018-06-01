@@ -8,23 +8,24 @@ namespace BlogApp.Controllers
     public class HomeController : Controller
     {
         private readonly IPostRepository _postRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly int _pageSize = 5;
 
-        public HomeController(IPostRepository postRepository)
+        public HomeController(IPostRepository postRepository, ICategoryRepository categoryRepository)
         {
             _postRepository = postRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public ActionResult Index(int page = 1)
         {
-            int pageSize = 5;
-
             PostViewModel model = new PostViewModel
             {
-                Posts = _postRepository.GetPosts(page, pageSize),
+                Posts = _postRepository.GetPosts(page, _pageSize),
                 PageInfo = new PageInfo
                 {
                     PageNumber = page,
-                    PageSize = pageSize,
+                    PageSize = _pageSize,
                     TotalItems = _postRepository.TotalPosts()
                 }
             };
@@ -47,6 +48,39 @@ namespace BlogApp.Controllers
             ViewBag.selectedItem = "contact";
 
             return View();
+        }
+
+        [Route("Acrhive/{category}")]
+        public ActionResult Category(string category, int page = 1)
+        {
+            var model = new PostViewModel
+            {
+                Posts = _postRepository.GetPostsByCategory(category, page, _pageSize),
+                PageInfo = new PageInfo
+                {
+                    PageNumber = page,
+                    PageSize = _pageSize,
+                    TotalItems = _postRepository.TotalPostsForCategory(category)
+                }
+            };
+
+            return View("Index", model);
+        }
+
+        [ChildActionOnly]
+        public ActionResult Sidebars()
+        {
+            var widgetViewModel = new WidgetViewModel
+            {
+                Categories = _categoryRepository.GetCategories()
+            };
+
+            foreach (var category in widgetViewModel.Categories)
+            {
+                category.Frequence = _postRepository.TotalPostsForCategory(category.UrlSlug);
+            }
+
+            return PartialView("_Sidebars", widgetViewModel);
         }
     }
 }

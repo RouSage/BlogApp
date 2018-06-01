@@ -37,7 +37,13 @@
 
     <!-- Main content-->
     <div class="container" role="main">
-        @RenderBody()
+        <div class="row">
+            <!-- Left sidebar -->
+            @Html.Action("Sidebars", "Home")
+            <!-- Main body content -->
+            @RenderBody()
+        </div>
+        <!-- /.row -->
         <hr />
     </div>
 

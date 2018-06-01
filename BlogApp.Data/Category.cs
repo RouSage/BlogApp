@@ -16,7 +16,7 @@ namespace BlogApp.Data
         [StringLength(500, ErrorMessage = "Length should not exceed 500 characters")]
         public string UrlSlug { get; set; }
 
-        //public int Frequence { get; set; }
+        public int Frequence { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }
     }

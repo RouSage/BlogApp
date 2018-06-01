@@ -1,14 +1,12 @@
 ﻿@model BlogApp.Models.PostViewModel
 @using BlogApp.HtmlHelpers
 
-@{
+@{ 
     ViewBag.Title = "Latest Posts";
 }
 
 <!-- Blog posts -->
 <div class="col-md-8">
-    <h3 class="pb-3 mb-4 border-bottom">@ViewBag.Title</h3>
-
     @if (Model.Posts.Count() > 0)
     {
         foreach (var post in Model.Posts)

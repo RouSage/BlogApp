@@ -34,6 +34,7 @@ namespace BlogApp
             container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new HierarchicalLifetimeManager());
             container.RegisterType<AccountController>(new InjectionConstructor());
+            container.RegisterType<ManageController>(new InjectionConstructor());
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

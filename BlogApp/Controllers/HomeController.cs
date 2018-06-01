@@ -33,23 +33,6 @@ namespace BlogApp.Controllers
             return View(model);
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-            ViewBag.selectedItem = "about";
-
-            return View();
-        }
-
-        [Authorize]
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-            ViewBag.selectedItem = "contact";
-
-            return View();
-        }
-
         [Route("Acrhive/{category}")]
         public ActionResult Category(string category, int page = 1)
         {
@@ -65,6 +48,23 @@ namespace BlogApp.Controllers
             };
 
             return View("Index", model);
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+            ViewBag.selectedItem = "about";
+
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+            ViewBag.selectedItem = "contact";
+
+            return View();
         }
 
         [ChildActionOnly]

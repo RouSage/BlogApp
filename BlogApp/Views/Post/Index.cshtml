@@ -1,8 +1,41 @@
 ﻿@model BlogApp.Data.Post
+@using BlogApp.HtmlHelpers
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Model.Title;
 }
 
-<h2>Index</h2>
+<!-- Blog post -->
+<div class="col-md-8">
+    <div class="card border-magenta">
+        <div class="card-body">
+            <!-- Post's category -->
+            <strong class="d-inline-block mb-2 text-magenta">@Model.Category.Name</strong>
+            <!-- Post's title -->
+            <h3 class="mb-0 text-dark">@Model.Title</h3>
+            <!-- Posts'meta -->
+            <ul class="list-inline">
+                <li class="list-inline-item text-muted">
+                    <span class="fas fa-calendar-alt fa-sm"></span>
+                    @Model.PostedOn.ToLocalTime().ToShortDateString()
+                </li>
+                @*<li class="list-inline-item">
+                @Html.CategoryLink(Model.Category, "text-muted")
+            </li>*@
+                <li class="list-inline-item text-muted">
+                    <span class="fas fa-tags fa-sm"></span>
+                    @foreach (var tag in Model.Tags)
+                    {
+                        @Html.TagLink(tag, "text-muted pr-1")
+                    }
+                </li>
+            </ul>
+            <!-- /.list-inline -->
+            <!-- Post's content -->
+            <p class="card-text">@Model.Content</p>
+        </div>
+        <!-- /.card-body -->
+    </div>
+</div>
+<!-- /.col-md-8 -->
 

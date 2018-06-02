@@ -9,12 +9,14 @@ namespace BlogApp.Controllers
     {
         private readonly IPostRepository _postRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ITagRepository _tagRepository;
         private readonly int _pageSize = 5;
 
-        public HomeController(IPostRepository postRepository, ICategoryRepository categoryRepository)
+        public HomeController(IPostRepository postRepository, ICategoryRepository categoryRepository, ITagRepository tagRepository)
         {
             _postRepository = postRepository;
             _categoryRepository = categoryRepository;
+            _tagRepository = tagRepository;
         }
 
         public ActionResult Index(int page = 1)
@@ -89,7 +91,8 @@ namespace BlogApp.Controllers
         {
             var widgetViewModel = new WidgetViewModel
             {
-                Categories = _categoryRepository.GetCategories()
+                Categories = _categoryRepository.GetCategories(),
+                Tags = _tagRepository.GetTags()
             };
 
             foreach (var category in widgetViewModel.Categories)

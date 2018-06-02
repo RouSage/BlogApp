@@ -50,6 +50,23 @@ namespace BlogApp.Controllers
             return View("Index", model);
         }
 
+        [Route("Archive/{tag}")]
+        public ActionResult Tag(string tag, int page = 1)
+        {
+            var model = new PostViewModel
+            {
+                Posts = _postRepository.GetPostsByTag(tag, page, _pageSize),
+                PageInfo = new PageInfo
+                {
+                    PageNumber = page,
+                    PageSize = _pageSize,
+                    TotalItems = _postRepository.TotalPostsForTag(tag)
+                }
+            };
+
+            return View("Index", model);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

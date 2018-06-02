@@ -7,6 +7,9 @@
 <div class="col-md-8">
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "card border-magenta", role = "form" }))
     {
+        <div class="card-header">
+            Create a new account
+        </div>
         @Html.AntiForgeryToken()
         @Html.ValidationSummary("", new { @class = "text-danger" })
         <div class="form-group">

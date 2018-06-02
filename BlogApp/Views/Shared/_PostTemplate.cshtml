@@ -1,4 +1,5 @@
 ﻿@model BlogApp.Data.Post
+@using BlogApp.HtmlHelpers
 
 <!-- Blog post -->
 <div class="card border-magenta">
@@ -7,9 +8,7 @@
         <strong class="d-inline-block mb-2 text-magenta">@Model.Category.Name</strong>
         <!-- Post's title -->
         <h3 class="mb-0">
-            @Html.ActionLink(Model.Title, "Index", "Post",
-                new { year = Model.PostedOn.Year, month = Model.PostedOn.Month, titleSlug = Model.UrlSlug},
-                new { @class = "text-dark"})
+            @Html.PostLink(Model, "text-dark")
         </h3>
         <!-- Post's meta -->
         <div class="mb-1 text-muted">@Model.PostedOn.ToLocalTime().ToLongDateString()</div>

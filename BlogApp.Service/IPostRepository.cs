@@ -32,6 +32,8 @@ namespace BlogApp.Service
         /// Return all Post entities based on category's slug
         /// </summary>
         /// <param name="categorySlug">Category's slug</param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
         IEnumerable<Post> GetPostsByCategory(string categorySlug, int page, int pageSize);
 
@@ -39,8 +41,10 @@ namespace BlogApp.Service
         /// Returns all Post entities based on tag's slug
         /// </summary>
         /// <param name="tagSlug">Tag's slug</param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
-        IEnumerable<Post> GetPostsByTag(string tagSlug);
+        IEnumerable<Post> GetPostsByTag(string tagSlug, int page, int pageSize);
 
         /// <summary>
         /// Returns total number of published posts
@@ -54,6 +58,13 @@ namespace BlogApp.Service
         /// <param name="categorySlug">Category's slug</param>
         /// <returns></returns>
         int TotalPostsForCategory(string categorySlug);
+
+        /// <summary>
+        /// Return total number of published posts based on category
+        /// </summary>
+        /// <param name="tagSlug">Tag's slug</param>
+        /// <returns></returns>
+        int TotalPostsForTag(string tagSlug);
 
         /// <summary>
         /// Returns a single Post entity based on ID

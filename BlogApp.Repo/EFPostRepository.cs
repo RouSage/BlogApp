@@ -59,17 +59,22 @@ namespace BlogApp.Repo
             return DbContext.Posts
                 .Where(p => p.Published && p.Category.UrlSlug.Equals(categorySlug))
                 .OrderByDescending(p=>p.PostedOn)
-                .Skip((page - 1) * ( pageSize))
+                .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .Include(c=>c.Category)
                 .Include(t=>t.Tags)
                 .ToList();
         }
 
-        public IEnumerable<Post> GetPostsByTag(string tagSlug)
+        public IEnumerable<Post> GetPostsByTag(string tagSlug, int page, int pageSize)
         {
             return DbContext.Posts
                 .Where(p => p.Published && p.Tags.Any(t => t.UrlSlug.Equals(tagSlug)))
+                .OrderByDescending(p=>p.PostedOn)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Include(c=>c.Category)
+                .Include(t=>t.Tags)
                 .ToList();
         }
 
@@ -84,6 +89,13 @@ namespace BlogApp.Repo
         {
             return DbContext.Posts
                 .Where(p => p.Published && p.Category.UrlSlug.Equals(categorySlug))
+                .Count();
+        }
+
+        public int TotalPostsForTag(string tagSlug)
+        {
+            return DbContext.Posts
+                .Where(p => p.Published && p.Tags.Any(t => t.UrlSlug.Equals(tagSlug)))
                 .Count();
         }
     }

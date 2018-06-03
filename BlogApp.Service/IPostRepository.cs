@@ -17,7 +17,17 @@ namespace BlogApp.Service
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        IEnumerable<Post> GetPosts(int page, int pageSize);
+        IEnumerable<Post> GetPublishedPosts(int page, int pageSize);
+
+        /// <summary>
+        /// Returns all posts with pagination and sorting support
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortColumn"></param>
+        /// <param name="sortByAscending"></param>
+        /// <returns></returns>
+        IEnumerable<Post> GetAllPosts(int page, int pageSize, string sortColumn, bool sortByAscending);
 
         /// <summary>
         /// Return post based on the published year, month and title slug
@@ -35,7 +45,7 @@ namespace BlogApp.Service
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        IEnumerable<Post> GetPostsByCategory(string categorySlug, int page, int pageSize);
+        IEnumerable<Post> GetPublishedPostsByCategory(string categorySlug, int page, int pageSize);
 
         /// <summary>
         /// Returns all Post entities based on tag's slug
@@ -44,27 +54,28 @@ namespace BlogApp.Service
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        IEnumerable<Post> GetPostsByTag(string tagSlug, int page, int pageSize);
+        IEnumerable<Post> GetPublishedPostsByTag(string tagSlug, int page, int pageSize);
 
         /// <summary>
-        /// Returns total number of published posts
+        /// Returns total number of published/not published posts
         /// </summary>
+        /// <param name="isPublished">True to return only published posts</param>
         /// <returns></returns>
-        int TotalPosts();
+        int TotalPosts(bool isPublished = true);
 
         /// <summary>
         /// Returns total number of published posts based on category
         /// </summary>
         /// <param name="categorySlug">Category's slug</param>
         /// <returns></returns>
-        int TotalPostsForCategory(string categorySlug);
+        int TotalPublishedPostsForCategory(string categorySlug);
 
         /// <summary>
         /// Return total number of published posts based on category
         /// </summary>
         /// <param name="tagSlug">Tag's slug</param>
         /// <returns></returns>
-        int TotalPostsForTag(string tagSlug);
+        int TotalPublishedPostsForTag(string tagSlug);
 
         /// <summary>
         /// Returns a single Post entity based on ID

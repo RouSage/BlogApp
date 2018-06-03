@@ -42,7 +42,7 @@ namespace BlogApp.Repo
                 .ToList();
         }
 
-        public IEnumerable<Post> GetPosts(int page, int pageSize)
+        public IEnumerable<Post> GetPublishedPosts(int page, int pageSize)
         {
             return DbContext.Posts
                 .Where(p => p.Published)
@@ -54,7 +54,137 @@ namespace BlogApp.Repo
                 .ToList();
         }
 
-        public IEnumerable<Post> GetPostsByCategory(string categorySlug, int page, int pageSize)
+        public IEnumerable<Post> GetAllPosts(int page, int pageSize, string sortColumn, bool sortByAscending)
+        {
+            IEnumerable<Post> posts;
+
+            switch (sortColumn)
+            {
+                case "Title":
+                    if (sortByAscending)
+                    {
+                        posts = DbContext.Posts
+                            .OrderBy(p => p.Title)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    }
+                    else
+                    {
+                        posts = DbContext.Posts
+                            .OrderByDescending(p => p.Title)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    }
+                    break;
+                case "Published":
+                    if (sortByAscending)
+                    {
+                        posts = DbContext.Posts
+                            .OrderBy(p => p.Published)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    }
+                    else
+                    {
+                        posts = DbContext.Posts
+                            .OrderByDescending(p => p.Published)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    }
+                    break;
+                case "PostedOn":
+                    if (sortByAscending)
+                    {
+                        posts = DbContext.Posts
+                            .OrderBy(p => p.PostedOn)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    }
+                    else
+                    {
+                        posts = DbContext.Posts
+                            .OrderByDescending(p => p.PostedOn)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    }
+                    break;
+                case "Modified":
+                    if (sortByAscending)
+                    {
+                        posts = DbContext.Posts
+                            .OrderBy(p => p.Modified)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    }
+                    else
+                    {
+                        posts = DbContext.Posts
+                            .OrderByDescending(p => p.Modified)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    }
+                    break;
+                case "Category":
+                    if (sortByAscending)
+                    {
+                        posts = DbContext.Posts
+                            .OrderBy(p => p.Category.Name)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    }
+                    else
+                    {
+                        posts = DbContext.Posts
+                            .OrderByDescending(p => p.Category.Name)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    }
+                    break;
+                default:
+                    posts = DbContext.Posts
+                            .OrderBy(p => p.PostedOn)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Include(c => c.Category)
+                            .Include(t => t.Tags)
+                            .ToList();
+                    break;
+            }
+
+            return posts;
+        }
+
+        public IEnumerable<Post> GetPublishedPostsByCategory(string categorySlug, int page, int pageSize)
         {
             return DbContext.Posts
                 .Where(p => p.Published && p.Category.UrlSlug.Equals(categorySlug))
@@ -66,7 +196,7 @@ namespace BlogApp.Repo
                 .ToList();
         }
 
-        public IEnumerable<Post> GetPostsByTag(string tagSlug, int page, int pageSize)
+        public IEnumerable<Post> GetPublishedPostsByTag(string tagSlug, int page, int pageSize)
         {
             return DbContext.Posts
                 .Where(p => p.Published && p.Tags.Any(t => t.UrlSlug.Equals(tagSlug)))
@@ -78,21 +208,21 @@ namespace BlogApp.Repo
                 .ToList();
         }
 
-        public int TotalPosts()
+        public int TotalPosts(bool isPublished = true)
         {
             return DbContext.Posts
-                .Where(p => p.Published)
+                .Where(p => !isPublished || p.Published)
                 .Count();
         }
 
-        public int TotalPostsForCategory(string categorySlug)
+        public int TotalPublishedPostsForCategory(string categorySlug)
         {
             return DbContext.Posts
                 .Where(p => p.Published && p.Category.UrlSlug.Equals(categorySlug))
                 .Count();
         }
 
-        public int TotalPostsForTag(string tagSlug)
+        public int TotalPublishedPostsForTag(string tagSlug)
         {
             return DbContext.Posts
                 .Where(p => p.Published && p.Tags.Any(t => t.UrlSlug.Equals(tagSlug)))

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace BlogApp.Data
 {
@@ -18,6 +19,7 @@ namespace BlogApp.Data
 
         public int Frequence { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Post> Posts { get; set; }
     }
 }

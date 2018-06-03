@@ -23,7 +23,7 @@ namespace BlogApp.Controllers
         {
             PostViewModel model = new PostViewModel
             {
-                Posts = _postRepository.GetPosts(page, _pageSize),
+                Posts = _postRepository.GetPublishedPosts(page, _pageSize),
                 PageInfo = new PageInfo
                 {
                     PageNumber = page,
@@ -40,12 +40,12 @@ namespace BlogApp.Controllers
         {
             var model = new PostViewModel
             {
-                Posts = _postRepository.GetPostsByCategory(category, page, _pageSize),
+                Posts = _postRepository.GetPublishedPostsByCategory(category, page, _pageSize),
                 PageInfo = new PageInfo
                 {
                     PageNumber = page,
                     PageSize = _pageSize,
-                    TotalItems = _postRepository.TotalPostsForCategory(category)
+                    TotalItems = _postRepository.TotalPublishedPostsForCategory(category)
                 }
             };
 
@@ -57,12 +57,12 @@ namespace BlogApp.Controllers
         {
             var model = new PostViewModel
             {
-                Posts = _postRepository.GetPostsByTag(tag, page, _pageSize),
+                Posts = _postRepository.GetPublishedPostsByTag(tag, page, _pageSize),
                 PageInfo = new PageInfo
                 {
                     PageNumber = page,
                     PageSize = _pageSize,
-                    TotalItems = _postRepository.TotalPostsForTag(tag)
+                    TotalItems = _postRepository.TotalPublishedPostsForTag(tag)
                 }
             };
 
@@ -97,7 +97,7 @@ namespace BlogApp.Controllers
 
             foreach (var category in widgetViewModel.Categories)
             {
-                category.Frequence = _postRepository.TotalPostsForCategory(category.UrlSlug);
+                category.Frequence = _postRepository.TotalPublishedPostsForCategory(category.UrlSlug);
             }
 
             return PartialView("_Sidebars", widgetViewModel);

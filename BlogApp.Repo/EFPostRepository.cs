@@ -228,5 +228,12 @@ namespace BlogApp.Repo
                 .Where(p => p.Published && p.Tags.Any(t => t.UrlSlug.Equals(tagSlug)))
                 .Count();
         }
+
+        public int AddPost(Post post)
+        {
+            DbContext.Posts.Add(post);
+
+            return post.ID;
+        }
     }
 }

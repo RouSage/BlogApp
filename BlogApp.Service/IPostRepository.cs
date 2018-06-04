@@ -6,6 +6,13 @@ namespace BlogApp.Service
     public interface IPostRepository : IRepository<Post>
     {
         /// <summary>
+        /// Adds post to the database BUT doesn't saving it
+        /// </summary>
+        /// <param name="post"></param>
+        /// <returns>Id of the new record</returns>
+        int AddPost(Post post);
+
+        /// <summary>
         /// Returns all Post entities
         /// </summary>
         /// <returns></returns>

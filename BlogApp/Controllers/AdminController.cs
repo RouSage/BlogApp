@@ -1,4 +1,5 @@
-﻿using BlogApp.Models;
+﻿using BlogApp.Data;
+using BlogApp.Models;
 using BlogApp.Service;
 using Newtonsoft.Json;
 using System;
@@ -10,13 +11,15 @@ namespace BlogApp.Controllers
     [Authorize]
     public class AdminController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IPostRepository _postRepository;
 
-        public AdminController(IPostRepository postRepository)
+        public AdminController(IUnitOfWork unitOfWork, IPostRepository postRepository)
         {
+            _unitOfWork = unitOfWork;
             _postRepository = postRepository;
         }
-
+        
         // GET: Admin
         public ActionResult Index()
         {
@@ -27,6 +30,39 @@ namespace BlogApp.Controllers
         public ActionResult Manage()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddPost(Post post)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                // Add record to the database
+                var id = _postRepository.AddPost(post);
+
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = id,
+                    success = true,
+                    message = "Post added successfully."
+                });
+
+                // Save changes to the database
+                _unitOfWork.Complete();
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to add the post."
+                });
+            }
+
+            return Content(json, "application/json");
         }
 
         [Route("Admin/Posts")]

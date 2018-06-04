@@ -25,6 +25,7 @@ namespace BlogApp
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
+            container.RegisterType<IUnitOfWork, UnitOfWork>();
             container.RegisterType<IPostRepository, EFPostRepository>();
             container.RegisterType<ICategoryRepository, EFCategoryRepository>();
             container.RegisterType<ITagRepository, EFTagRepository>();

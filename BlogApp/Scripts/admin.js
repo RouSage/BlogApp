@@ -56,6 +56,7 @@
                 hidden: true,
                 editable: true,
                 edittype: 'textarea',
+                edittype: 'textarea',
                 editoptions: {
                     rows: "10",
                     cols: "100"
@@ -215,8 +216,56 @@
             width: 1000,
             closeAfterAdd: true,
             closeOnEscape: true,
-            afterShowForm: afterShowForm,
-            onClose: onClose
+            afterShowForm: function () {
+                tinymce.init({
+                    selector: '#Description',
+                    theme: 'modern',
+                    branding: false,
+                    resize: false,
+                    statusbar: false,
+                    menubar: false,
+                    browser_spellcheck: true,
+                    contextmenu: false,
+                    plugins: 'lists advlist link anchor image searchreplace help code hr visualblocks visualchars table textcolor charmap',
+                    toolbar: [
+                        'bold italic underline strikethrough code | alignleft aligncenter alignright alignjustify | visualblocks visualchars removeformat | styleselect formatselect',
+                        'undo redo | forecolor backcolor | bullist numlist | indent outdent | link unlink | anchor searchreplace help',
+                        'fontsizeselect | hr table image charmap | subscript superscript',
+                    ],
+                    // Link plugin options
+                    link_context_toolbar: true,
+                    link_title: false,
+                    // Code plugin options
+                    code_dialog_height: 300,
+                    code_dialog_width: 600,
+                });
+                tinymce.init({
+                    selector: "#Content",
+                    theme: 'modern',
+                    branding: false,
+                    resize: false,
+                    statusbar: false,
+                    menubar: false,
+                    browser_spellcheck: true,
+                    contextmenu: false,
+                    plugins: 'lists advlist link anchor image searchreplace help code hr visualblocks visualchars table textcolor charmap',
+                    toolbar: [
+                        'bold italic underline strikethrough code | alignleft aligncenter alignright alignjustify | visualblocks visualchars removeformat | styleselect formatselect',
+                        'undo redo | forecolor backcolor | bullist numlist | indent outdent | link unlink | anchor searchreplace help',
+                        'fontsizeselect | hr table image charmap | subscript superscript',
+                    ],
+                    // Link plugin options
+                    link_context_toolbar: true,
+                    link_title: false,
+                    // Code plugin options
+                    code_dialog_height: 300,
+                    code_dialog_width: 600,
+                });
+            },
+            onClose: function () {
+                tinymce.remove('#Description');
+                tinymce.remove('#Content');
+            }
         },
         {   // Delete options
             

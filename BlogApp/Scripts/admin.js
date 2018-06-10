@@ -334,7 +334,6 @@
         }
     );
 
-
     // CATEGORIES GRID
     BlogApp.GridManager.categoriesGrid = $("#tableCategories").jqGrid({
         url: 'Categories',
@@ -478,7 +477,13 @@
             }
         },
         {   // Delete options
-           
+            url: 'DeleteCategory',
+            caption: 'Delete Category',
+            processData: "Saving...",
+            width: 450,
+            msg: "Delete the category? This will delete all the posts belongs to this category as well.",
+            closeOnEscape: true,
+            afterSubmit: afterSubmitHandler
         }
     );
 

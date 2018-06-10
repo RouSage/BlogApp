@@ -584,7 +584,22 @@
 
         },
         {   // Add options
+            url: 'AddTag',
+            width: 400,
+            addCaption: 'Add Tag',
+            processData: "Saving...",
+            closeAfterAdd: true,
+            closeOnEscape: true,
+            afterSubmit: function (response, postdata) {
+                var json = $.parseJSON(response.responseText);
 
+                if (json) {
+                    $("#tableTags").jqGrid('setGridParam', { datatype: 'json' });
+                    return [json.success, json.message];
+                }
+
+                return [false, "Failed to get result from server.", null];
+            }
         },
         {   // Delete options
 

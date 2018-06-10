@@ -196,6 +196,35 @@ namespace BlogApp.Controllers
             return Content(json, "application/json");
         }
 
+        [HttpPost]
+        public ActionResult AddTag([Bind(Exclude = "ID")]Tag tag)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Tags.Insert(tag);
+
+                json = JsonConvert.SerializeObject(new
+                {
+                    success = true,
+                    message = "Tag added successfullu."
+                });
+
+                _unitOfWork.Save();
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    success = false,
+                    message = "Failed to add the tag."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
         public ActionResult GetCategoriesHtml()
         {
             var categories = _unitOfWork.Categories.GetCategories();

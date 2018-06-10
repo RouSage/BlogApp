@@ -148,6 +148,37 @@ namespace BlogApp.Controllers
             return Content(json, "application/json");
         }
 
+        [HttpPost]
+        public ActionResult EditCategory(Category category)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Categories.Update(category);
+
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = category.ID,
+                    success = true,
+                    message = "Changes saved successfully."
+                });
+
+                _unitOfWork.Save();
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to save changes."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
         public ActionResult GetCategoriesHtml()
         {
             var categories = _unitOfWork.Categories.GetCategories();

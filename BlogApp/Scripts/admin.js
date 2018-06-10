@@ -3,7 +3,7 @@
     var BlogApp = {};
 
     BlogApp.GridManager = {};
-
+    
     // POSTS GRID
     BlogApp.GridManager.postsGrid = $("#tablePosts").jqGrid({
         url: 'Posts',
@@ -331,6 +331,122 @@
             msg: "Delete the Post?",
             closeOnEscape: true,
             afterSubmit: afterSubmitHandler
+        }
+    );
+
+
+    // CATEGORIES GRID
+    BlogApp.GridManager.categoriesGrid = $("#tableCategories").jqGrid({
+        url: 'Categories',
+        datatype: "json",
+        mtype: 'GET',
+
+        height: 'auto',
+
+        // Table header names
+        colNames: [
+            'ID',
+            'Name',
+            'UrlSlug',
+            'Frequence'
+        ],
+        // colModel takes the data from controller and binds to grid
+        colModel: [
+            {
+                name: 'ID',
+                index: 'ID',
+                hidden: true,
+                sorttype: 'int',
+                key: true,
+                editable: false,
+                editoptions: {
+                    readonly: true
+                }
+            },
+            {
+                name: 'Name',
+                index: 'Name',
+                width: 200,
+                sortable: true,
+                editable: true,
+                edittype: 'text',
+                editoptions: {
+                    size: 30,
+                    maxlength: 500
+                },
+                editrules: {
+                    required: true
+                }
+            },
+            {
+                name: 'UrlSlug',
+                index: 'UrlSlug',
+                width: 200,
+                sortable: false,
+                editable: true,
+                edittype: 'text',
+                editoptions: {
+                    size: 30,
+                    maxlength: 500
+                },
+                editrules: {
+                    required: true
+                }
+            },
+            {
+                name: 'Frequence',
+                index: 'Frequence',
+                width: 100,
+                sortable: true,
+                editable: false,
+                edittype: 'int',
+                editoptions: {
+                    readonly: true
+                }
+            }
+        ],
+
+        // Pagination options
+        toppager: true,
+        pager: "#pagerCategories",
+
+        // Row number columns
+        rownumbers: true,
+        rownumWidth: 40,
+        rowNum: 500,
+
+        // Default sorting
+        sortname: 'Name',
+
+        // Display the no. of records message
+        viewrecords: true,
+
+        caption: "Categories",
+
+        loadonce: true,
+
+        jsonReader: {
+            repeatitems: false
+        }
+
+    });
+
+    BlogApp.GridManager.categoriesNavGrid = $("#tableCategories").navGrid("#pagerCategories",
+        {   // Parameters
+            cloneToTop: true,
+            search: false,
+            addtitle: 'Add new category',
+            edittitle: 'Edit selected category',
+            deltitle: 'Delete selected category',
+            alerttext: 'Please, select row'
+        },
+        {   // Edit options   
+            
+        },
+        {    // Add options
+                    },
+        {   // Delete options
+           
         }
     );
 

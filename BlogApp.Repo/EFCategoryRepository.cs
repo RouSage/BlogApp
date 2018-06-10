@@ -53,5 +53,10 @@ namespace BlogApp.Repo
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        public int TotalCategories()
+        {
+            return DbContext.Categories.Count();
+        }
     }
 }

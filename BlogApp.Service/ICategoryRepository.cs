@@ -25,5 +25,7 @@ namespace BlogApp.Service
         /// <param name="categoryID">Category's ID</param>
         /// <returns></returns>
         Category GetCategoryByID(int categoryID);
+
+        int TotalCategories();
     }
 }

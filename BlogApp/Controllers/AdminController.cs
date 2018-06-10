@@ -155,7 +155,6 @@ namespace BlogApp.Controllers
             return Content(sb.ToString(), "text/html");
         }
 
-        [Route("Admin/Posts")]
         public ActionResult Posts(JqInViewModel jqParams)
         {
             var posts = _unitOfWork.Posts.GetAllPosts(jqParams.page, jqParams.rows, jqParams.sidx, jqParams.sord == "asc");
@@ -171,6 +170,19 @@ namespace BlogApp.Controllers
                 rows = posts,
                 total = Math.Ceiling(Convert.ToDouble(totalPosts) / jqParams.rows)
             }, new CustomDateTimeConverter()), "application/json");
+        }
+
+        public ActionResult Categories()
+        {
+            var categories = _unitOfWork.Categories.GetCategories();
+
+            return Content(JsonConvert.SerializeObject(new
+            {
+                page = 1,
+                records = _unitOfWork.Categories.TotalCategories(),
+                rows = categories,
+                total = 1
+            }), "application/json");
         }
 
         protected override void Dispose(bool disposing)

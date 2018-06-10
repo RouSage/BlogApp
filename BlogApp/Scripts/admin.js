@@ -581,7 +581,22 @@
             alerttext: 'Please, select row'
         },
         {   // Edit options   
+            url: 'EditTag',
+            width: 400,
+            editCaption: 'Edit Tag',
+            processData: "Saving...",
+            closeAfterEdit: true,
+            closeOnEscape: true,
+            afterSubmit: function (response, postdata) {
+                var json = $.parseJSON(response.responseText);
 
+                if (json) {
+                    $("#tableTags").jqGrid('setGridParam', { datatype: 'json' });
+                    return [json.success, json.message, json.id];
+                }
+
+                return [false, "Failed to get result from server.", null];
+            }
         },
         {   // Add options
             url: 'AddTag',

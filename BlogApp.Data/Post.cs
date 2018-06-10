@@ -7,7 +7,6 @@ namespace BlogApp.Data
     public class Post
     {
         [Key]
-        [Required(ErrorMessage = "ID is required")]
         public int ID { get; set; }
 
         [Required(ErrorMessage = "Title is required")]

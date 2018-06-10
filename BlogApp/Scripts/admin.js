@@ -56,12 +56,18 @@
                 hidden: true,
                 editable: true,
                 edittype: 'textarea',
-                edittype: 'textarea',
                 editoptions: {
                     rows: "10",
                     cols: "100"
                 },
                 editrules: {
+                    // Custom validation needed because of tinyMCE editor
+                    custom: true,
+                    custom_func: function (val, colname) {
+                        val = tinymce.get("Description").getContent();
+                        if (val) return [true, ""];
+                        return [false, colname + ": Field is required"];
+                    },
                     edithidden: true
                 }
             },
@@ -78,6 +84,13 @@
                     cols: "100"
                 },
                 editrules: {
+                    // Custom validation needed because of tinyMCE editor
+                    custom: true,
+                    custom_func: function (val, colname) {
+                        val = tinymce.get("Content").getContent();
+                        if (val) return [true, ""];
+                        return [false, colname + ": Field is required"];
+                    },
                     edithidden: true
                 }
             },
@@ -188,7 +201,7 @@
             var tagStr = "";
 
             $.each(tags, function (i, t) {
-                if (tagStr) tagStr += ", "
+                if (tagStr) tagStr += ", ";
                 tagStr += t.Name;
             });
 
@@ -196,6 +209,15 @@
         }
 
     });
+
+    // Prevents dialog closing even though the server returns and error
+    var afterSubmitHandler = function (response, postdata) {
+        var json = $.parseJSON(response.responseText);
+
+        if (json) return [json.success, json.message, json.id];
+
+        return [false, "Failed to get result from server.", null];
+    };
 
     BlogApp.GridManager.postsNavGrid = $("#tablePosts").navGrid("#pagerPosts",
         {   // Parameters
@@ -216,6 +238,7 @@
             width: 1000,
             closeAfterAdd: true,
             closeOnEscape: true,
+            // Initialize all text editors after form was showed
             afterShowForm: function () {
                 tinymce.init({
                     selector: '#Description',
@@ -230,14 +253,14 @@
                     toolbar: [
                         'bold italic underline strikethrough code | alignleft aligncenter alignright alignjustify | visualblocks visualchars removeformat | styleselect formatselect',
                         'undo redo | forecolor backcolor | bullist numlist | indent outdent | link unlink | anchor searchreplace help',
-                        'fontsizeselect | hr table image charmap | subscript superscript',
+                        'fontsizeselect | hr table image charmap | subscript superscript'
                     ],
                     // Link plugin options
                     link_context_toolbar: true,
                     link_title: false,
                     // Code plugin options
                     code_dialog_height: 300,
-                    code_dialog_width: 600,
+                    code_dialog_width: 600
                 });
                 tinymce.init({
                     selector: "#Content",
@@ -252,20 +275,34 @@
                     toolbar: [
                         'bold italic underline strikethrough code | alignleft aligncenter alignright alignjustify | visualblocks visualchars removeformat | styleselect formatselect',
                         'undo redo | forecolor backcolor | bullist numlist | indent outdent | link unlink | anchor searchreplace help',
-                        'fontsizeselect | hr table image charmap | subscript superscript',
+                        'fontsizeselect | hr table image charmap | subscript superscript'
                     ],
                     // Link plugin options
                     link_context_toolbar: true,
                     link_title: false,
                     // Code plugin options
                     code_dialog_height: 300,
-                    code_dialog_width: 600,
+                    code_dialog_width: 600
                 });
             },
+            // Remove all text editors after form was closed
             onClose: function () {
                 tinymce.remove('#Description');
                 tinymce.remove('#Content');
-            }
+            },
+            // Read values from the editors and add them to the post data
+            // so the successfully submotted to the server
+            beforeSubmit: function (postdata, form) {
+                var selRowData = $('#tablePosts').getRowData($('#tablePosts').getGridParam('selrow'));
+                if (selRowData["PostedOn"])
+                    postdata.PostedOn = selRowData["PostedOn"];
+                postdata.Description = tinymce.get("Description").getContent();
+                postdata.Content = tinymce.get("Content").getContent();
+
+                return [true];
+            },
+            // Prevents dialog closing even though the server returns and error
+            afterSubmit: afterSubmitHandler
         },
         {   // Delete options
             

@@ -34,7 +34,6 @@ namespace BlogApp.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        [Route("Admin/AddPost")]
         public ActionResult AddPost(Post post)
         {
             string json;
@@ -99,6 +98,23 @@ namespace BlogApp.Controllers
                     message = "Failed to save the changes."
                 });
             }
+
+            return Content(json, "application/json");
+        }
+
+        [HttpPost]
+        public ActionResult DeletePost(int id)
+        {
+            _unitOfWork.Posts.Delete(id);
+
+            var json = JsonConvert.SerializeObject(new
+            {
+                id = 0,
+                success = true,
+                message = "Post deleted successfully."
+            });
+
+            _unitOfWork.Save();
 
             return Content(json, "application/json");
         }

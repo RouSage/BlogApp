@@ -325,7 +325,12 @@
             afterSubmit: afterSubmitHandler
         },
         {   // Delete options
-            
+            url: 'DeletePost',
+            caption: "Delete Post",
+            processData: "Saving...",
+            msg: "Delete the Post?",
+            closeOnEscape: true,
+            afterSubmit: afterSubmitHandler
         }
     );
 

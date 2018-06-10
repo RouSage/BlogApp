@@ -617,7 +617,13 @@
             }
         },
         {   // Delete options
-
+            url: 'DeleteTag',
+            caption: 'Delete Tag',
+            processData: "Saving...",
+            width: 400,
+            msg: "Delete the tag? This will delete all the posts belong to this tag as well.",
+            closeOnEscape: true,
+            afterSubmit: afterSubmitHandler
         }
     );
 

@@ -256,6 +256,23 @@ namespace BlogApp.Controllers
             return Content(json, "application/json");
         }
 
+        [HttpPost]
+        public ActionResult DeleteTag(int id)
+        {
+            _unitOfWork.Tags.Delete(id);
+
+            var json = JsonConvert.SerializeObject(new
+            {
+                id = 0,
+                success = true,
+                message = "Tag deleted successfully."
+            });
+
+            _unitOfWork.Save();
+
+            return Content(json, "application/json");
+        }
+
         public ActionResult GetCategoriesHtml()
         {
             var categories = _unitOfWork.Categories.GetCategories();

@@ -262,6 +262,19 @@ namespace BlogApp.Controllers
             }), "application/json");
         }
 
+        public ActionResult Tags()
+        {
+            var tags = _unitOfWork.Tags.GetTags();
+
+            return Content(JsonConvert.SerializeObject(new
+            {
+                page = 1,
+                records = _unitOfWork.Tags.TotalTags(),
+                rows = tags,
+                total = 1
+            }), "application/json");
+        }
+
         protected override void Dispose(bool disposing)
         {
             _unitOfWork.Dispose();

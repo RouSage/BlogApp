@@ -25,5 +25,7 @@ namespace BlogApp.Service
         /// <param name="tagID">Tag's ID</param>
         /// <returns></returns>
         Tag GetTagByID(int tagID);
+
+        int TotalTags();
     }
 }

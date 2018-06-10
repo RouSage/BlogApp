@@ -487,4 +487,108 @@
         }
     );
 
+    // TAGS GRID
+    BlogApp.GridManager.tagsGrid = $("#tableTags").jqGrid({
+        url: 'Tags',
+        datatype: "json",
+        mtype: 'GET',
+
+        height: 'auto',
+
+        // Table header names
+        colNames: [
+            'ID',
+            'Name',
+            'UrlSlug'
+        ],
+        // colModel takes the data from controller and binds to grid
+        colModel: [
+            {
+                name: 'ID',
+                index: 'ID',
+                hidden: true,
+                sorttype: 'int',
+                key: true,
+                editable: false,
+                editoptions: {
+                    readonly: true
+                }
+            },
+            {
+                name: 'Name',
+                index: 'Name',
+                width: 300,
+                sortable: true,
+                editable: true,
+                edittype: 'text',
+                editoptions: {
+                    size: 30,
+                    maxlength: 50
+                },
+                editrules: {
+                    required: true
+                }
+            },
+            {
+                name: 'UrlSlug',
+                index: 'UrlSlug',
+                width: 200,
+                sortable: false,
+                editable: true,
+                edittype: 'text',
+                editoptions: {
+                    size: 30,
+                    maxlength: 50
+                },
+                editrules: {
+                    required: true
+                }
+            }
+        ],
+
+        // Pagination options
+        toppager: true,
+        pager: "#pagerTags",
+
+        // Row number columns
+        rownumbers: true,
+        rownumWidth: 40,
+        rowNum: 500,
+
+        // Default sorting
+        sortname: 'Name',
+
+        // Display the no. of records message
+        viewrecords: true,
+
+        caption: "Tags",
+
+        loadonce: true,
+
+        jsonReader: {
+            repeatitems: false
+        }
+
+    });
+
+    BlogApp.GridManager.tagsNavGrid = $("#tableTags").navGrid("#pagerTags",
+        {   // Parameters
+            cloneToTop: true,
+            search: false,
+            addtitle: 'Add new tag',
+            edittitle: 'Edit selected tag',
+            deltitle: 'Delete selected tag',
+            alerttext: 'Please, select row'
+        },
+        {   // Edit options   
+
+        },
+        {   // Add options
+
+        },
+        {   // Delete options
+
+        }
+    );
+
 });

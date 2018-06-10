@@ -33,6 +33,11 @@ namespace BlogApp.Repo
             return DbContext.Tags.OrderBy(t => t.Name).ToList();
         }
 
+        public int TotalTags()
+        {
+            return DbContext.Tags.Count();
+        }
+
         private bool disposed = false;
 
         protected virtual void Dispose(bool disposing)

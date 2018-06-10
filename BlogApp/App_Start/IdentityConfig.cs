@@ -10,8 +10,6 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using BlogApp.Models;
-using SendGrid.Helpers.Mail;
 using System.Net.Mail;
 using System.Net;
 using System.Text;
@@ -31,11 +29,13 @@ namespace BlogApp
 
         private async Task ConfigSendSmtpAsync(IdentityMessage message)
         {
-            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
-            client.Credentials = new NetworkCredential(
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential(
                 ConfigurationManager.AppSettings["mailAccount"],
-                ConfigurationManager.AppSettings["mailPassword"]);
-            client.EnableSsl = true;
+                ConfigurationManager.AppSettings["mailPassword"]),
+                EnableSsl = true
+            };
 
             MailAddress from = new MailAddress("kolbasov77@gmail.com", "RouSage", Encoding.UTF8);
             MailAddress to = new MailAddress(message.Destination);

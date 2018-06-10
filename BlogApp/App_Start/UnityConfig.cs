@@ -1,4 +1,3 @@
-#region Usings
 using BlogApp.Controllers;
 using BlogApp.Repo;
 using BlogApp.Service;
@@ -10,7 +9,6 @@ using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
 using Unity.Mvc5;
-#endregion
 
 namespace BlogApp
 {
@@ -24,7 +22,6 @@ namespace BlogApp
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
-
             container.RegisterType<IUnitOfWork, UnitOfWork>();
             container.RegisterType<IPostRepository, EFPostRepository>();
             container.RegisterType<ICategoryRepository, EFCategoryRepository>();

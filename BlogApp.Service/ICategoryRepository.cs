@@ -1,9 +1,10 @@
 ﻿using BlogApp.Data;
+using System;
 using System.Collections.Generic;
 
 namespace BlogApp.Service
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface ICategoryRepository : IRepository<Category>, IDisposable
     {
         /// <summary>
         /// Returns all Category entities

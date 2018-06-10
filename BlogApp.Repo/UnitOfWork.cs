@@ -1,4 +1,6 @@
-﻿using BlogApp.Service;
+﻿using BlogApp.Data;
+using BlogApp.Service;
+using System;
 
 namespace BlogApp.Repo
 {
@@ -14,20 +16,36 @@ namespace BlogApp.Repo
             Tags = new EFTagRepository(_dbContext);
         }
 
-        public IPostRepository Posts { get; }
+        public IPostRepository Posts { get; private set; }
 
-        public ICategoryRepository Categories { get; }
+        public ICategoryRepository Categories { get; private set; }
 
-        public ITagRepository Tags { get; }
+        public ITagRepository Tags { get; private set; }
 
-        public int Complete()
+        public void Save()
         {
-            return _dbContext.SaveChanges();
+            _dbContext.SaveChanges();
+        }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _dbContext.Dispose();
+                }
+            }
+
+            disposed = true;
         }
 
         public void Dispose()
         {
-            _dbContext.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

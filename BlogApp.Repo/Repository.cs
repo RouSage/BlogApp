@@ -4,58 +4,78 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlogApp.Repo
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly DbContext context;
+        protected readonly DbContext dbContext;
+        internal DbSet<TEntity> dbSet;
 
         public Repository(DbContext context)
         {
-            this.context = context;
+            dbContext = context;
+            dbSet = context.Set<TEntity>();
         }
 
-        public void Add(TEntity entity)
+        public void Delete(object id)
         {
-            context.Set<TEntity>().Add(entity);
-        }
-        
-        public void AddRange(IEnumerable<TEntity> entities)
-        {
-            context.Set<TEntity>().AddRange(entities);
+            TEntity entityToDelete = dbSet.Find(id);
+            Delete(entityToDelete);
         }
 
-        public void Edit(TEntity entity)
+        public void Delete(TEntity entityToDelete)
         {
-            context.Entry(entity).State = EntityState.Modified;
+            if(dbContext.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                dbSet.Attach(entityToDelete);
+            }
+
+            dbSet.Remove(entityToDelete);
         }
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        public IEnumerable<TEntity> Get(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "")
         {
-            return context.Set<TEntity>().Where(predicate);
+            IQueryable<TEntity> query = dbSet;
+
+            if(filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split(
+                new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if(orderBy != null)
+            {
+                return orderBy(query).ToList();
+            }
+            else
+            {
+                return query.ToList();
+            }
         }
 
-        public TEntity Get(int id)
+        public TEntity GetByID(object id)
         {
-            return context.Set<TEntity>().Find(id);
+            return dbSet.Find(id);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public void Insert(TEntity entity)
         {
-            return context.Set<TEntity>().ToList();
+            dbSet.Add(entity);
         }
 
-        public void Remove(TEntity entity)
+        public void Update(TEntity entity)
         {
-            context.Set<TEntity>().Remove(entity);
-        }
-
-        public void RemoveRange(IEnumerable<TEntity> entities)
-        {
-            context.Set<TEntity>().RemoveRange(entities);
+            dbSet.Attach(entity);
+            dbContext.Entry(entity).State = EntityState.Modified;
         }
     }
 }

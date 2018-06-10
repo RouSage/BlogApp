@@ -1,16 +1,17 @@
 ﻿using BlogApp.Data;
+using System;
 using System.Collections.Generic;
 
 namespace BlogApp.Service
 {
-    public interface IPostRepository : IRepository<Post>
+    public interface IPostRepository : IRepository<Post>, IDisposable
     {
         /// <summary>
         /// Adds post to the database BUT doesn't saving it
         /// </summary>
         /// <param name="post"></param>
         /// <returns>Id of the new record</returns>
-        int AddPost(Post post);
+        void AddPost(Post post);
 
         /// <summary>
         /// Returns all Post entities

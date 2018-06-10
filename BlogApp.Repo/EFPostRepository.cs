@@ -3,6 +3,7 @@ using BlogApp.Service;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
+using System;
 
 namespace BlogApp.Repo
 {
@@ -15,7 +16,7 @@ namespace BlogApp.Repo
 
         public EFBlogAppDbContext DbContext
         {
-            get { return context as EFBlogAppDbContext; }
+            get { return dbContext as EFBlogAppDbContext; }
         }
 
         public Post GetPost(int year, int month, string titleSlug)
@@ -229,11 +230,37 @@ namespace BlogApp.Repo
                 .Count();
         }
 
-        public int AddPost(Post post)
+        public void AddPost(Post post)
         {
-            DbContext.Posts.Add(post);
+            // Attach category and tags to the context so there won't be any duplicates
+            DbContext.Categories.Attach(post.Category);
+            foreach (var tag in post.Tags)
+            {
+                DbContext.Tags.Attach(tag);
+            }
 
-            return post.ID;
+            DbContext.Entry(post).State = EntityState.Added;
+        }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    DbContext.Dispose();
+                }
+            }
+
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using BlogApp.Data;
+using System;
 using System.Collections.Generic;
 
 namespace BlogApp.Service
 {
-    public interface ITagRepository : IRepository<Tag>
+    public interface ITagRepository : IRepository<Tag>, IDisposable
     {
         /// <summary>
         /// Returns all Tag entities

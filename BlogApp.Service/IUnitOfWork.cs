@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlogApp.Data;
+using System;
 
 namespace BlogApp.Service
 {
@@ -7,6 +8,6 @@ namespace BlogApp.Service
         IPostRepository Posts { get; }
         ICategoryRepository Categories { get; }
         ITagRepository Tags { get; }
-        int Complete();
+        void Save();
     }
 }

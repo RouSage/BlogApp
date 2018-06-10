@@ -119,6 +119,35 @@ namespace BlogApp.Controllers
             return Content(json, "application/json");
         }
 
+        [HttpPost]
+        public ActionResult AddCategory([Bind(Exclude = "ID")]Category category)
+        {
+            string json;
+
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Categories.Insert(category);
+
+                json = JsonConvert.SerializeObject(new
+                {
+                    succes = true,
+                    message = "Category added successfully."
+                });
+
+                _unitOfWork.Save();
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    success = false,
+                    message = "Failed to add the category."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
         public ActionResult GetCategoriesHtml()
         {
             var categories = _unitOfWork.Categories.GetCategories();

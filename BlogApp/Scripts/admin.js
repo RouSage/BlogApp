@@ -444,7 +444,24 @@
             
         },
         {    // Add options
-                    },
+            url: 'AddCategory',
+            width: 400,
+            addCaption: 'Add Category',
+            processData: "Saving...",
+            closeAfterAdd: true,
+            closeOnEscape: true,
+            afterSubmit: function (response, postdata) {
+                var json = $.parseJSON(response.responseText);
+
+                if (json) {
+                    // Since the data is in the cliend-side, reload the grid
+                    $("#tableCategories").jqGrid('setGridParam', { datatype: 'json' });
+                    return [json.success, json.message, json.id];
+                }
+
+                return [false, "Failed to get result from server.", null];
+            }
+        },
         {   // Delete options
            
         }

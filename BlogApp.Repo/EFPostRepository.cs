@@ -242,6 +242,17 @@ namespace BlogApp.Repo
             DbContext.Entry(post).State = EntityState.Added;
         }
 
+        public void Edit(Post post)
+        {
+            DbContext.Posts.Attach(post);
+            DbContext.Categories.Attach(post.Category);
+            foreach (var tag in post.Tags)
+            {
+                DbContext.Tags.Attach(tag);
+            }
+            DbContext.Entry(post).State = EntityState.Modified;
+        }
+
         private bool disposed = false;
 
         protected virtual void Dispose(bool disposing)

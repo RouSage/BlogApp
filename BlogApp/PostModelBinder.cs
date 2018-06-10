@@ -19,7 +19,7 @@ namespace BlogApp
             if (post.Category != null)
             {
                 post.Category = _unitOfWork.Categories.GetCategoryByID(post.Category.ID);
-                //post.CategoryId = post.Category.ID;
+                post.CategoryId = post.Category.ID;
             }
 
             var tags = bindingContext.ValueProvider.GetValue("Tags").AttemptedValue.Split(',');

@@ -69,6 +69,40 @@ namespace BlogApp.Controllers
             return Content(json, "application/json");
         }
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult EditPost(Post post)
+        {
+            string json;
+
+            ModelState.Clear();
+
+            if (TryValidateModel(post))
+            {
+                _unitOfWork.Posts.Edit(post);
+
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = post.ID,
+                    success = true,
+                    message = "Changes saved successfully."
+                });
+
+                _unitOfWork.Save();
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(new
+                {
+                    id = 0,
+                    success = false,
+                    message = "Failed to save the changes."
+                });
+            }
+
+            return Content(json, "application/json");
+        }
+
         public ActionResult GetCategoriesHtml()
         {
             var categories = _unitOfWork.Categories.GetCategories();

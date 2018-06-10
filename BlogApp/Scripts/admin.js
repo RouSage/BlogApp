@@ -131,7 +131,7 @@
             {
                 name: 'Modified',
                 index: 'Modified',
-                width: 100,
+                width: 150,
                 align: 'center',
                 sorttype: 'date',
                 datefmt: 'm.d.Y'
@@ -210,6 +210,53 @@
 
     });
 
+    var afterShowFormHandler = function () {
+        tinymce.init({
+            selector: '#Description',
+            theme: 'modern',
+            branding: false,
+            resize: false,
+            statusbar: false,
+            menubar: false,
+            browser_spellcheck: true,
+            contextmenu: false,
+            plugins: 'lists advlist link anchor image searchreplace help code hr visualblocks visualchars table textcolor charmap',
+            toolbar: [
+                'bold italic underline strikethrough code | alignleft aligncenter alignright alignjustify | visualblocks visualchars removeformat | styleselect formatselect',
+                'undo redo | forecolor backcolor | bullist numlist | indent outdent | link unlink | anchor searchreplace help',
+                'fontsizeselect | hr table image charmap | subscript superscript'
+            ],
+            // Link plugin options
+            link_context_toolbar: true,
+            link_title: false,
+            // Code plugin options
+            code_dialog_height: 300,
+            code_dialog_width: 600
+        });
+        tinymce.init({
+            selector: "#Content",
+            theme: 'modern',
+            branding: false,
+            resize: false,
+            statusbar: false,
+            menubar: false,
+            browser_spellcheck: true,
+            contextmenu: false,
+            plugins: 'lists advlist link anchor image searchreplace help code hr visualblocks visualchars table textcolor charmap',
+            toolbar: [
+                'bold italic underline strikethrough code | alignleft aligncenter alignright alignjustify | visualblocks visualchars removeformat | styleselect formatselect',
+                'undo redo | forecolor backcolor | bullist numlist | indent outdent | link unlink | anchor searchreplace help',
+                'fontsizeselect | hr table image charmap | subscript superscript'
+            ],
+            // Link plugin options
+            link_context_toolbar: true,
+            link_title: false,
+            // Code plugin options
+            code_dialog_height: 300,
+            code_dialog_width: 600
+        });
+    };
+
     // Prevents dialog closing even though the server returns and error
     var afterSubmitHandler = function (response, postdata) {
         var json = $.parseJSON(response.responseText);
@@ -217,6 +264,21 @@
         if (json) return [json.success, json.message, json.id];
 
         return [false, "Failed to get result from server.", null];
+    };
+
+    var beforeSubmitHandler = function (postdata, form) {
+        var selRowData = $('#tablePosts').getRowData($('#tablePosts').getGridParam('selrow'));
+        if (selRowData["PostedOn"])
+            postdata.PostedOn = selRowData["PostedOn"];
+        postdata.Description = tinymce.get("Description").getContent();
+        postdata.Content = tinymce.get("Content").getContent();
+
+        return [true];
+    };
+
+    var onCloseHandler = function () {
+        tinymce.remove('#Description');
+        tinymce.remove('#Content');
     };
 
     BlogApp.GridManager.postsNavGrid = $("#tablePosts").navGrid("#pagerPosts",
@@ -229,7 +291,21 @@
             alerttext: 'Please, select row'
         },
         {   // Edit options   
-
+            url: 'EditPost',
+            editCaption: 'Edit Post',
+            processData: "Saving...",
+            width: 1000,
+            closeAfterEdit: true,
+            closeOnEscape: true,
+            //afterclickPgButtons:
+            // Initialize all text editors after form was showed
+            afterShowForm: afterShowFormHandler,
+            // Remove all text editors after form was closed
+            onClose: onCloseHandler,
+            // Read values from the editors and add them to the post data
+            // so the successfully submotted to the server
+            beforeSubmit: beforeSubmitHandler,
+            afterSubmit: afterSubmitHandler
         },
         {    // Add options
             url: 'AddPost',
@@ -239,68 +315,12 @@
             closeAfterAdd: true,
             closeOnEscape: true,
             // Initialize all text editors after form was showed
-            afterShowForm: function () {
-                tinymce.init({
-                    selector: '#Description',
-                    theme: 'modern',
-                    branding: false,
-                    resize: false,
-                    statusbar: false,
-                    menubar: false,
-                    browser_spellcheck: true,
-                    contextmenu: false,
-                    plugins: 'lists advlist link anchor image searchreplace help code hr visualblocks visualchars table textcolor charmap',
-                    toolbar: [
-                        'bold italic underline strikethrough code | alignleft aligncenter alignright alignjustify | visualblocks visualchars removeformat | styleselect formatselect',
-                        'undo redo | forecolor backcolor | bullist numlist | indent outdent | link unlink | anchor searchreplace help',
-                        'fontsizeselect | hr table image charmap | subscript superscript'
-                    ],
-                    // Link plugin options
-                    link_context_toolbar: true,
-                    link_title: false,
-                    // Code plugin options
-                    code_dialog_height: 300,
-                    code_dialog_width: 600
-                });
-                tinymce.init({
-                    selector: "#Content",
-                    theme: 'modern',
-                    branding: false,
-                    resize: false,
-                    statusbar: false,
-                    menubar: false,
-                    browser_spellcheck: true,
-                    contextmenu: false,
-                    plugins: 'lists advlist link anchor image searchreplace help code hr visualblocks visualchars table textcolor charmap',
-                    toolbar: [
-                        'bold italic underline strikethrough code | alignleft aligncenter alignright alignjustify | visualblocks visualchars removeformat | styleselect formatselect',
-                        'undo redo | forecolor backcolor | bullist numlist | indent outdent | link unlink | anchor searchreplace help',
-                        'fontsizeselect | hr table image charmap | subscript superscript'
-                    ],
-                    // Link plugin options
-                    link_context_toolbar: true,
-                    link_title: false,
-                    // Code plugin options
-                    code_dialog_height: 300,
-                    code_dialog_width: 600
-                });
-            },
+            afterShowForm: afterShowFormHandler,
             // Remove all text editors after form was closed
-            onClose: function () {
-                tinymce.remove('#Description');
-                tinymce.remove('#Content');
-            },
+            onClose: onCloseHandler,
             // Read values from the editors and add them to the post data
             // so the successfully submotted to the server
-            beforeSubmit: function (postdata, form) {
-                var selRowData = $('#tablePosts').getRowData($('#tablePosts').getGridParam('selrow'));
-                if (selRowData["PostedOn"])
-                    postdata.PostedOn = selRowData["PostedOn"];
-                postdata.Description = tinymce.get("Description").getContent();
-                postdata.Content = tinymce.get("Content").getContent();
-
-                return [true];
-            },
+            beforeSubmit: beforeSubmitHandler,
             // Prevents dialog closing even though the server returns and error
             afterSubmit: afterSubmitHandler
         },

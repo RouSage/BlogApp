@@ -13,6 +13,8 @@ namespace BlogApp.Service
         /// <returns>Id of the new record</returns>
         void AddPost(Post post);
 
+        void Edit(Post post);
+
         /// <summary>
         /// Returns all Post entities
         /// </summary>

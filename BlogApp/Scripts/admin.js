@@ -517,7 +517,7 @@
             {
                 name: 'Name',
                 index: 'Name',
-                width: 300,
+                width: 200,
                 sortable: true,
                 editable: true,
                 edittype: 'text',

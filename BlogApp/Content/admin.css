@@ -1,2 +1,45 @@
 ﻿body {
+    color: #131315;
+    background-color: #eef3f5;
+    margin-left: 2rem;
+}
+
+.header {
+    margin-top: 1rem;
+    display: flex;
+    flex-flow: nowrap;
+    justify-content: flex-start;
+}
+    .header a {
+        -webkit-transition-duration: 0.2s;
+        transition-duration: 0.2s;
+        border: 10px solid darkmagenta;
+        border-radius: 5px;
+        background-color: darkmagenta;
+        color: white;
+        text-decoration: none;
+    }
+        .header a:hover {
+            border: 10px solid #008CBA;
+            background-color: #008CBA;
+        }
+
+.logout-link {
+    margin-left: 0.5rem;
+}
+
+.tab-posts {
+    margin-bottom: 1rem;
+}
+
+.wrapper {
+    display: flex;
+    flex-flow: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.tab-tags {
+    margin-left: 1rem;
 }

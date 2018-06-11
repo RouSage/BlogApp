@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width" />
     <title>Manage Data</title>
 
+    <link href="~/Content/admin.css" rel="stylesheet" />
+
     <!-- jQuery library-->
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
     <!-- jQuery UI library -->
-    @*<script src="~/Content/themes/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-    <link href="~/Content/themes/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />*@
     <link href="~/Content/themes/base/all.css" rel="stylesheet" />
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
@@ -27,37 +27,43 @@
     <!-- tinyMCE-->
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
 
-    <link href="~/Content/admin.css" rel="stylesheet" />
     <script src="~/Scripts/admin.js"></script>
 </head>
 <body>
-    <!-- Logout link -->
-    <div class="logout-link">
-        @Html.ActionLink("Logout", "LogOff", "Account")
+    <div class="header">
+        <div class="home">
+            @Html.ActionLink("Home", "Index", new { controller = "Home" }, new { @class = "home-link" })
+        </div>
+        <!-- Logout link -->
+        <div class="logout">
+            @Html.ActionLink("Logout", "LogOff", "Account", new { @class = "logout-link" })
+        </div>
     </div>
+    <!--/.header -->
 
     <h2>Manage Data</h2>
 
-    <div id="tab-posts">
+    <div class="tab-posts">
         <table id="tablePosts" class="grid">
         </table>
         <div id="pagerPosts" class="pager">
         </div>
     </div>
     <!-- /#tab-posts -->
-    <div id="tab-categories">
-        <table id="tableCategories" class="grid">
-        </table>
-        <div id="pagerCategories" class="pager">
+    <div class="wrapper">
+        <div class="tab-categories">
+            <table id="tableCategories" class="grid"></table>
+            <div id="pagerCategories" class="pager">
+            </div>
         </div>
-    </div>
-    <!-- /#tab-categories -->
-    <div id="tab-tags"">
-        <table id="tableTags" class="grid">
-        </table>
-        <div id="pagerTags" class="pager">
+        <!-- /.tab-categories -->
+        <div class="tab-tags">
+            <table id="tableTags" class="grid"></table>
+            <div id="pagerTags" class="pager">
+            </div>
         </div>
+        <!-- /.tab-tags -->
     </div>
-    <!-- /#tab-tags -->
+    <!-- /.wrapper-->
 </body>
 </html>

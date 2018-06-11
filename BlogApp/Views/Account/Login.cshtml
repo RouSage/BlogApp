@@ -17,7 +17,7 @@
             @Html.LabelFor(m => m.UserName, new { @class = "col-md-3 control-label" })
             <div class="col-md-10">
                 @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Enter user name" })
-                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
             </div>
         </div>
         <!-- /.form-group -->

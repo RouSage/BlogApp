@@ -18,7 +18,7 @@ namespace BlogApp.Controllers
         }
 
         // GET: Post
-        [Route("Archive/{year}/{month}/{titleSlug}")]
+        [Route("Archive/{year}/{month}/{titleSlug}", Name = "FullPost")]
         public ActionResult Index(int year, int month, string titleSlug)
         {
             var post = _postRepository.GetPost(year, month, titleSlug);

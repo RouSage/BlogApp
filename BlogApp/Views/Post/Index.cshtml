@@ -16,18 +16,22 @@
             <!-- Posts'meta -->
             <ul class="list-inline">
                 <li class="list-inline-item text-muted">
+                    <!-- Post's published date -->
                     <span class="fas fa-calendar-alt fa-sm"></span>
                     @Model.PostedOn.ToLocalTime().ToShortDateString()
                 </li>
-                @*<li class="list-inline-item">
-                @Html.CategoryLink(Model.Category, "text-muted")
-            </li>*@
                 <li class="list-inline-item text-muted">
+                    <!-- Post's tags -->
                     <span class="fas fa-tags fa-sm"></span>
                     @foreach (var tag in Model.Tags)
                     {
                         @Html.TagLink(tag, "text-muted pr-1")
                     }
+                </li>
+                <li class="list-inline-item text-muted float-right">
+                    <!-- Comments count -->
+                    <span class="fas fa-comments"></span>
+                    <a href="@string.Format("{0}#disqus_thread", Model.Href(Url))">Comments</a>
                 </li>
             </ul>
             <!-- /.list-inline -->
@@ -35,7 +39,14 @@
             <p class="card-text">@Model.Content</p>
         </div>
         <!-- /.card-body -->
+        <div class="card-footer">
+            <!-- Include Disqus -->
+            @Html.Partial("_Disqus")
+        </div>
+        <!-- /.card-footer -->
     </div>
+    <!-- /.card -->
 </div>
 <!-- /.col-md-8 -->
+
 

@@ -9,25 +9,8 @@
     <meta name="viewport" content="width=device-width" />
     <title>Manage Data</title>
 
-    <link href="~/Content/admin.css" rel="stylesheet" />
+    @Styles.Render("~/Content/admincss", "~/Content/themes/base/css", "~/Content/jqgridcss")
 
-    <!-- jQuery library-->
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-
-    <!-- jQuery UI library -->
-    <link href="~/Content/themes/base/all.css" rel="stylesheet" />
-    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-
-    <!-- jqGrid-->
-    <link href="~/Content/ui.jqgrid.min.css" rel="stylesheet" />
-    <script src="~/Scripts/free-jqGrid/jquery.jqgrid.min.js"></script>
-    <script src="~/Scripts/free-jqGrid/i18n/min/grid.locale-en.js"></script>
-
-    <!-- tinyMCE-->
-    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
-
-    <script src="~/Scripts/admin.js"></script>
 </head>
 <body>
     <div class="header">
@@ -65,5 +48,8 @@
         <!-- /.tab-tags -->
     </div>
     <!-- /.wrapper-->
+
+    @Scripts.Render("~/bundles/jquery", "~/bundles/adminjs", "~/bundles/jqueryui",
+        "~/bundles/jqgrid", "~/bundles/tinymce")
 </body>
 </html>

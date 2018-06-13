@@ -1,5 +1,9 @@
 ﻿using BlogApp.Models;
 using BlogApp.Service;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.ServiceModel.Syndication;
 using System.Web.Mvc;
 
 namespace BlogApp.Controllers
@@ -7,28 +11,24 @@ namespace BlogApp.Controllers
     [RequireHttps]
     public class HomeController : Controller
     {
-        private readonly IPostRepository _postRepository;
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly ITagRepository _tagRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly int _pageSize = 5;
 
-        public HomeController(IPostRepository postRepository, ICategoryRepository categoryRepository, ITagRepository tagRepository)
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _postRepository = postRepository;
-            _categoryRepository = categoryRepository;
-            _tagRepository = tagRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public ActionResult Index(int page = 1)
         {
             PostViewModel model = new PostViewModel
             {
-                Posts = _postRepository.GetPublishedPosts(page, _pageSize),
+                Posts = _unitOfWork.Posts.GetPublishedPosts(page, _pageSize),
                 PageInfo = new PageInfo
                 {
                     PageNumber = page,
                     PageSize = _pageSize,
-                    TotalItems = _postRepository.TotalPosts()
+                    TotalItems = _unitOfWork.Posts.TotalPosts()
                 }
             };
 
@@ -40,12 +40,12 @@ namespace BlogApp.Controllers
         {
             var model = new PostViewModel
             {
-                Posts = _postRepository.GetPublishedPostsByCategory(category, page, _pageSize),
+                Posts = _unitOfWork.Posts.GetPublishedPostsByCategory(category, page, _pageSize),
                 PageInfo = new PageInfo
                 {
                     PageNumber = page,
                     PageSize = _pageSize,
-                    TotalItems = _postRepository.TotalPublishedPostsForCategory(category)
+                    TotalItems = _unitOfWork.Posts.TotalPublishedPostsForCategory(category)
                 }
             };
 
@@ -57,12 +57,12 @@ namespace BlogApp.Controllers
         {
             var model = new PostViewModel
             {
-                Posts = _postRepository.GetPublishedPostsByTag(tag, page, _pageSize),
+                Posts = _unitOfWork.Posts.GetPublishedPostsByTag(tag, page, _pageSize),
                 PageInfo = new PageInfo
                 {
                     PageNumber = page,
                     PageSize = _pageSize,
-                    TotalItems = _postRepository.TotalPublishedPostsForTag(tag)
+                    TotalItems = _unitOfWork.Posts.TotalPublishedPostsForTag(tag)
                 }
             };
 
@@ -86,18 +86,49 @@ namespace BlogApp.Controllers
             return View();
         }
 
+        [Route("Feed")]
+        public ActionResult Feed()
+        {
+            var blogTitle = ConfigurationManager.AppSettings["BlogTitle"];
+            var blogDescription = ConfigurationManager.AppSettings["BlogDescription"];
+            var blogUrl = ConfigurationManager.AppSettings["BlogUrl"];
+
+            var posts = _unitOfWork.Posts.GetPublishedPosts(1, 25);
+
+            // Create a collection of SyndicationItems from the latest posts
+            List<SyndicationItem> collection = new List<SyndicationItem>();
+
+            foreach (var post in posts)
+            {
+                collection.Add( new SyndicationItem(post.Title, post.Content, new System.Uri(string.Concat(blogUrl, post.Href(Url)))));
+            }
+
+            // Create an instance if SyndicationFeed class passing the SyndicationItem collection
+            var feed = new SyndicationFeed(blogTitle, blogDescription, new System.Uri(blogUrl), collection)
+            {
+                Copyright = new TextSyndicationContent(string.Format("Copyright (c) {0}", blogTitle)),
+                Language = "en-US"
+            };
+
+            // Format feed in RSS format
+            var feedFormatter = new Rss20FeedFormatter(feed);
+
+            // Call the custom action that write the feed to the response
+            return new FeedResult(feedFormatter);
+        }
+
         [ChildActionOnly]
         public ActionResult Sidebars()
         {
             var widgetViewModel = new WidgetViewModel
             {
-                Categories = _categoryRepository.GetCategories(),
-                Tags = _tagRepository.GetTags()
+                Categories = _unitOfWork.Categories.GetCategories(),
+                Tags = _unitOfWork.Tags.GetTags()
             };
 
             foreach (var category in widgetViewModel.Categories)
             {
-                category.Frequence = _postRepository.TotalPublishedPostsForCategory(category.UrlSlug);
+                category.Frequence = _unitOfWork.Posts.TotalPublishedPostsForCategory(category.UrlSlug);
             }
 
             return PartialView("_Sidebars", widgetViewModel);

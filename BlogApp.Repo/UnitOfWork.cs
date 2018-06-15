@@ -14,6 +14,7 @@ namespace BlogApp.Repo
             Posts = new EFPostRepository(_dbContext);
             Categories = new EFCategoryRepository(_dbContext);
             Tags = new EFTagRepository(_dbContext);
+            ContactRepository = new Repository<Contact>(_dbContext);
         }
 
         public IPostRepository Posts { get; private set; }
@@ -21,6 +22,8 @@ namespace BlogApp.Repo
         public ICategoryRepository Categories { get; private set; }
 
         public ITagRepository Tags { get; private set; }
+
+        public IRepository<Contact> ContactRepository { get; private set; }
 
         public void Save()
         {

@@ -8,6 +8,8 @@ namespace BlogApp.Service
         IPostRepository Posts { get; }
         ICategoryRepository Categories { get; }
         ITagRepository Tags { get; }
+        IRepository<Contact> ContactRepository { get; }
+
         void Save();
     }
 }

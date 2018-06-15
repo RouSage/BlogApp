@@ -1,9 +1,13 @@
-﻿using BlogApp.Models;
+﻿using BlogApp.Data;
+using BlogApp.Models;
 using BlogApp.Service;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Net;
+using System.Net.Mail;
 using System.ServiceModel.Syndication;
+using System.Text;
 using System.Web.Mvc;
 
 namespace BlogApp.Controllers
@@ -77,11 +81,48 @@ namespace BlogApp.Controllers
             return View();
         }
 
-        [Authorize]
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-            ViewBag.selectedItem = "contact";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Contact(Contact contact)
+        {
+            if (ModelState.IsValid)
+            {
+                var client = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    Credentials = new NetworkCredential(
+                        ConfigurationManager.AppSettings["mailAccount"],
+                        ConfigurationManager.AppSettings["mailPassword"]),
+                    EnableSsl = true
+                };
+
+                var adminMail = ConfigurationManager.AppSettings["mailAccount"];
+                var from = new MailAddress(contact.Email, "BlogApp Messenger - " + contact.Name);
+                var to = new MailAddress(adminMail, "BlogApp Admin");
+
+                using (var message = new MailMessage(from, to)
+                {
+                    IsBodyHtml = true,
+                    Body = contact.Body,
+                    BodyEncoding = Encoding.UTF8,
+
+                    Subject = contact.Subject,
+                    SubjectEncoding = Encoding.UTF8,
+
+                    ReplyTo = new MailAddress(contact.Email)
+                })
+
+                client.Send(message);
+
+                // Add message to the database
+                _unitOfWork.ContactRepository.Insert(contact);
+                _unitOfWork.Save();
+
+                return View("Thanks");
+            }
 
             return View();
         }
@@ -100,7 +141,7 @@ namespace BlogApp.Controllers
 
             foreach (var post in posts)
             {
-                collection.Add( new SyndicationItem(post.Title, post.Content, new System.Uri(string.Concat(blogUrl, post.Href(Url)))));
+                collection.Add(new SyndicationItem(post.Title, post.Content, new System.Uri(string.Concat(blogUrl, post.Href(Url)))));
             }
 
             // Create an instance if SyndicationFeed class passing the SyndicationItem collection

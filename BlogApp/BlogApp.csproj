@@ -54,6 +54,9 @@
     <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.8.6\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -236,6 +239,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
@@ -262,16 +266,41 @@
     <Content Include="App_Data\BlogAppDb_log.ldf">
       <DependentUpon>BlogAppDb.mdf</DependentUpon>
     </Content>
+    <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\admin.css" />
     <Content Include="Content\admin.min.css">
       <DependentUpon>admin.css</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.css.map">
+      <DependentUpon>bootstrap-grid.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap-grid.min.css">
+      <DependentUpon>bootstrap-grid.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap-grid.min.css.map">
+      <DependentUpon>bootstrap-grid.css</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.css.map">
+      <DependentUpon>bootstrap-reboot.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap-reboot.min.css">
+      <DependentUpon>bootstrap-reboot.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap-reboot.min.css.map">
+      <DependentUpon>bootstrap-reboot.css</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap.min.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
     <Content Include="Content\site.min.css">
       <DependentUpon>site.css</DependentUpon>
     </Content>
@@ -317,7 +346,12 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\ui.jqgrid.css" />
-    <Content Include="Content\ui.jqgrid.min.css" />
+    <Content Include="Content\ui.jqgrid.min.css">
+      <DependentUpon>ui.jqgrid.css</DependentUpon>
+    </Content>
+    <Content Include="Content\ui.jqgrid.min.css.map">
+      <DependentUpon>ui.jqgrid.css</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\site.css" />
@@ -329,23 +363,45 @@
       <DependentUpon>admin.js</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
-    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.bundle.js.map">
+      <DependentUpon>bootstrap.bundle.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\bootstrap.bundle.min.js">
+      <DependentUpon>bootstrap.bundle.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\bootstrap.bundle.min.js.map">
+      <DependentUpon>bootstrap.bundle.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Scripts\bootstrap.js.map">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\bootstrap.min.js">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\bootstrap.min.js.map">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\esm\popper-utils.js" />
-    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper-utils.js.map">
+      <DependentUpon>popper-utils.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\esm\popper-utils.min.js">
+      <DependentUpon>popper-utils.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\esm\popper-utils.min.js.map">
+      <DependentUpon>popper-utils.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\esm\popper.js" />
-    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\esm\popper.js.map">
+      <DependentUpon>popper.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\esm\popper.min.js">
+      <DependentUpon>popper.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\esm\popper.min.js.map">
+      <DependentUpon>popper.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\free-jqGrid\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\free-jqGrid\i18n\grid.locale-bg.js" />
     <Content Include="Scripts\free-jqGrid\i18n\grid.locale-bs.js" />
@@ -542,34 +598,68 @@
     <Content Include="Scripts\free-jqGrid\i18n\min\grid.locale-ca.js.map" />
     <Content Include="Scripts\free-jqGrid\i18n\min\grid.locale-bg.js.map" />
     <Content Include="Scripts\free-jqGrid\i18n\min\grid.locale-ar.js.map" />
-    <Content Include="Content\ui.jqgrid.min.css.map" />
-    <Content Include="Scripts\esm\popper.min.js.map" />
-    <Content Include="Scripts\esm\popper.js.map" />
-    <Content Include="Scripts\esm\popper-utils.min.js.map" />
-    <Content Include="Scripts\esm\popper-utils.js.map" />
     <None Include="bundleconfig.json" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\free-jqGrid\plugins\ui.multiselect.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery-3.3.1.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js">
+      <DependentUpon>jquery-3.3.1.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-3.3.1.min.map">
+      <DependentUpon>jquery-3.3.1.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-3.3.1.slim.js">
+      <DependentUpon>jquery-3.3.1.js</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.3.1.intellisense.js">
+      <DependentUpon>jquery-3.3.1.js</DependentUpon>
+    </None>
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js">
+      <DependentUpon>jquery-3.3.1.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map">
+      <DependentUpon>jquery-3.3.1.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
-    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js">
+      <DependentUpon>jquery-ui-1.12.1.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.min.js">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js">
+      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
-    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper-utils.js.map">
+      <DependentUpon>popper-utils.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\popper-utils.min.js">
+      <DependentUpon>popper-utils.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\popper-utils.min.js.map">
+      <DependentUpon>popper-utils.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\popper.js" />
-    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\popper.js.map">
+      <DependentUpon>popper.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\popper.min.js">
+      <DependentUpon>popper.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\popper.min.js.map">
+      <DependentUpon>popper.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
-    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
-    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js">
+      <DependentUpon>respond.matchmedia.addListener.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\respond.min.js">
+      <DependentUpon>respond.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
@@ -704,17 +794,41 @@
     <Content Include="Scripts\tinymce\skins\lightgray\skin.min.css" />
     <Content Include="Scripts\tinymce\skins\lightgray\skin.mobile.min.css" />
     <Content Include="Scripts\tinymce\themes\inlite\theme.js" />
-    <Content Include="Scripts\tinymce\themes\inlite\theme.min.js" />
+    <Content Include="Scripts\tinymce\themes\inlite\theme.min.js">
+      <DependentUpon>theme.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\tinymce\themes\mobile\theme.js" />
-    <Content Include="Scripts\tinymce\themes\mobile\theme.min.js" />
+    <Content Include="Scripts\tinymce\themes\mobile\theme.min.js">
+      <DependentUpon>theme.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\tinymce\themes\modern\theme.js" />
-    <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
+    <Content Include="Scripts\tinymce\themes\modern\theme.min.js">
+      <DependentUpon>theme.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\tinymce\tinymce.js" />
-    <Content Include="Scripts\tinymce\tinymce.min.js" />
+    <Content Include="Scripts\tinymce\tinymce.min.js">
+      <DependentUpon>tinymce.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\umd\popper-utils.js" />
-    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper-utils.js.map">
+      <DependentUpon>popper-utils.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\umd\popper-utils.min.js">
+      <DependentUpon>popper-utils.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\umd\popper-utils.min.js.map">
+      <DependentUpon>popper-utils.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\umd\popper.js" />
-    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\umd\popper.js.map">
+      <DependentUpon>popper.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\umd\popper.min.js">
+      <DependentUpon>popper.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\umd\popper.min.js.map">
+      <DependentUpon>popper.js</DependentUpon>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -765,28 +879,25 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
-    <Content Include="Scripts\umd\popper.min.js.map" />
-    <Content Include="Scripts\umd\popper.js.map" />
-    <Content Include="Scripts\umd\popper-utils.min.js.map" />
-    <Content Include="Scripts\umd\popper-utils.js.map" />
     <Content Include="Scripts\README.md" />
-    <Content Include="Scripts\popper.min.js.map" />
-    <Content Include="Scripts\popper.js.map" />
-    <Content Include="Scripts\popper-utils.min.js.map" />
-    <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_Disqus.cshtml" />
     <Content Include="Views\Shared\_AddThis.cshtml" />
+    <None Include="Scripts\jquery.validate-vsdoc.js">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </None>
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\free-jqGrid\ts\free-jqgrid.d.ts" />
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
+    <TypeScriptCompile Include="Scripts\index.d.ts">
+      <DependentUpon>jquery-3.3.1.js</DependentUpon>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\typings\jqueryui\jqueryui.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

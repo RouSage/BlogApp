@@ -1,6 +1,11 @@
 ﻿@model BlogApp.Data.Post
 @using BlogApp.HtmlHelpers
 
+@{ 
+    ViewBag.Title = Model.Title;
+    ViewBag.Keywords = string.Join(" ", Model.Tags.Select(t => t.Name).ToArray());
+}
+
 <!-- Blog post -->
 <div class="card border-magenta mb-3">
     <div class="card-body">

@@ -1,8 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using System.Configuration
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="@(ViewBag.Keywords ?? ConfigurationManager.AppSettings["MetaKeywords"])" />
+    <meta name="description" content="@(ViewBag.Description ?? ConfigurationManager.AppSettings["MetaDescription"])" />
+    <meta name="author" content="@ConfigurationManager.AppSettings["Author"]" />
+
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")

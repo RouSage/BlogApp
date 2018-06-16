@@ -73,6 +73,24 @@ namespace BlogApp.Controllers
             return View("Index", model);
         }
 
+        [HttpPost]
+        [Route("Search")]
+        public ActionResult Search(string search, int page = 1)
+        {
+            var model = new PostViewModel
+            {
+                Posts = _unitOfWork.Posts.PostsForSearch(search, page, _pageSize),
+                PageInfo = new PageInfo
+                {
+                    PageNumber = page,
+                    PageSize = _pageSize,
+                    TotalItems = _unitOfWork.Posts.TotalPostsForSearch(search)
+                }
+            };
+
+            return View("Index", model);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

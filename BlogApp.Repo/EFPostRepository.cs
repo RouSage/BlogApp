@@ -209,6 +209,27 @@ namespace BlogApp.Repo
                 .ToList();
         }
 
+        public IEnumerable<Post> PostsForSearch(string search, int page, int pageSize)
+        {
+            return DbContext.Posts.Where(p => p.Published && (p.Title.Contains(search)
+                    || p.Category.Name.Contains(search)
+                    || p.Tags.Any(t => t.Name.Equals(search))))
+                .OrderByDescending(p => p.PostedOn)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Include(c => c.Category)
+                .Include(t => t.Tags)
+                .ToList();
+        }
+
+        public int TotalPostsForSearch(string search)
+        {
+            return DbContext.Posts.Where(p => p.Published && (p.Title.Contains(search)
+                    || p.Category.Name.Contains(search)
+                    || p.Tags.Any(t => t.Name.Equals(search))))
+                .Count();
+        }
+
         public int TotalPosts(bool isPublished = true)
         {
             return DbContext.Posts

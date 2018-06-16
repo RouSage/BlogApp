@@ -66,6 +66,10 @@ namespace BlogApp.Service
         /// <returns></returns>
         IEnumerable<Post> GetPublishedPostsByTag(string tagSlug, int page, int pageSize);
 
+        IEnumerable<Post> PostsForSearch(string search, int page, int pageSize);
+
+        int TotalPostsForSearch(string search);
+
         /// <summary>
         /// Returns total number of published/not published posts
         /// </summary>

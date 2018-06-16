@@ -47,6 +47,10 @@ namespace BlogApp
                 .Include("~/Scripts/bootstrap.js",
                     "~/Scripts/respond.js"));
 
+            // app script bundle
+            bundles.Add(new ScriptBundle("~/bundles/app")
+                .Include("~/Scripts/app.js"));
+
             // admin script bundle
             bundles.Add(new ScriptBundle("~/bundles/adminjs")
                 .Include("~/Scripts/admin.js"));

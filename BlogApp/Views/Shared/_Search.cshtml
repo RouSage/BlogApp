@@ -1,0 +1,11 @@
+﻿<div class="card border-magenta mb-2 d-flex justify-content-center align-items-center">
+    @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "input-group p-2", id="search-form" }))
+    {
+        <div class="input-group-prepend">
+            <span class="input-group-text fas fa-search fa-md pt-2" id="search-icon"></span>
+        </div>
+        @Html.TextBox("search", null, new { @class="form-control", placeholder="Search", aria_label="Search", aria_describedby="search-icon"})
+        @*<input type="text" id="search-text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-icon" />*@
+        <input type="submit" value="Search" class="btn btn-primary ml-2" />
+    }
+</div>
